@@ -384,7 +384,8 @@ footer{color:var(--muted);font-size:.82rem;border-top:1px solid var(--line);padd
       <details class="howchecks">
         <summary>How the checks work</summary>
         <div class="prose">
-          <p><strong>Hard-to-observe verbs.</strong> An ILO is flagged if it starts with, or is built around: <span id="vagueList"></span>. These describe what happens in a student's head, which a marker cannot see.</p>
+          <p><strong>Says what, but not how.</strong> An information note, not a warning, when an ILO is built around <span id="softList"></span>. This phrasing is common and acceptable (the SCQF level descriptors use it), but it doesn't say how students show their understanding.</p>
+          <p><strong>No visible product.</strong> A warning when an ILO starts with <span id="hardList"></span> on its own. These verbs don't produce anything a marker can see.</p>
           <p><strong>Verb level.</strong> The first recognised verb is placed in one of five groups, based on Bloom's revised taxonomy. The Level guidance is typical practice, not a rule:</p>
           <ul id="tierList"></ul>
           <p><strong>Possibly covering too much.</strong> Flagged when an ILO is over 45 words or uses three or more different verbs from the list above.</p>
@@ -890,8 +891,11 @@ const TIERS=[
  {n:"Analyse",lv:"Common from Level 2 upwards",v:["analyse","compare","contrast","examine","interpret","distinguish","differentiate","investigate","categorise","relate"]},
  {n:"Evaluate",lv:"Typical at Honours (Levels 3 and 4)",v:["critically evaluate","critically appraise","critically analyse","evaluate","critique","appraise","assess","justify","judge","argue","defend","recommend","reflect"]},
  {n:"Create",lv:"Typical at Honours (Levels 3 and 4)",v:["design","create","develop","formulate","propose","construct","produce","plan","devise","synthesise","generate","communicate","present","write"]}];
-const VAGUE=["understand","know","appreciate","be aware of","be familiar with","learn","demonstrate an understanding","demonstrate knowledge","show an understanding","gain an understanding","have an awareness"];
-const VAGUE_RE=/^(understand|know|appreciate|learn|be (aware|familiar)|become (aware|familiar))\b|\b(demonstrate|show|gain|develop|have)\s+(a|an)?\s*(broad|good|sound|clear|critical|thorough|deep|detailed)?\s*(understanding|knowledge|awareness|appreciation)\b/i;
+const HARD_LIST=["understand","know","appreciate","learn","be aware of","be familiar with","become aware of"];
+const SOFT_LIST=["demonstrate an understanding","demonstrate knowledge","show an understanding","gain an understanding","develop an awareness"];
+const HARD_RE=/^\s*(understand|know|appreciate|learn|be (aware|familiar)|become (aware|familiar))\b/i;
+const SOFT_RE=/\b(demonstrate|show|gain|develop|have)\s+(a|an)?\s*(broad|good|sound|clear|critical|thorough|deep|detailed)?\s*(understanding|knowledge|awareness|appreciation)\b/i;
+const VAGUE_RE={test:t=>HARD_RE.test(t)||SOFT_RE.test(t)};
 const STOP=new Set("about after their there these those which while where with within without from into using such that this than then they them your will able students student psychology psychological course including other between through across based different range relevant appropriate given self".split(" "));
 const stem=w=>w.length>=5?w.slice(0,5):w;
 const toks=t=>[...new Set((t.toLowerCase().match(/[a-z]+/g)||[]).filter(w=>w.length>=4&&!STOP.has(w)).map(stem))];
@@ -902,7 +906,8 @@ function verbsIn(t){const low=" "+t.toLowerCase().replace(/[^a-z\s]/g," ")+" ";c
 function checkIlo(t){
   t=(t||"").trim(); if(!t) return [];
   const res=[]; const vs=verbsIn(t);
-  if(VAGUE_RE.test(t)) res.push({k:"warn",h:"Hard to observe",b:"Students' understanding can't be seen directly. Try a verb that shows it, such as explain, apply, compare or evaluate."});
+  if(HARD_RE.test(t)) res.push({k:"warn",h:"No visible product",b:"On its own, this verb doesn't produce anything a marker can see. Try a verb that shows it, such as explain, apply, compare or evaluate."});
+  else if(SOFT_RE.test(t)) res.push({k:"info",h:"Says what, but not how",b:"This is common and acceptable, but it doesn't say how students show their understanding. Naming the action (explain, apply, compare, evaluate) makes it easier to write rubric criteria and markers that match."});
   const vagueStart=/^\s*(demonstrate|show|gain|develop|have|understand|know|appreciate|learn|be|become)\b/i.test(t)&&VAGUE_RE.test(t);
   if(vs.length&&!(vagueStart&&vs[0].i<=1)){const f=vs[0];res.push({k:"ok",h:"Verb level: "+TIERS[f.ti].n,b:"“"+f.v+"”. "+TIERS[f.ti].lv+"."})}
   else if(!VAGUE_RE.test(t)) res.push({k:"warn",h:"No recognised verb",b:"Start with a verb students can show, such as explain, apply, analyse, evaluate or design."});
@@ -950,7 +955,8 @@ function iloWire(){
     const cur=$("dDraft").value.trim().replace(/[.\s]+$/,"");$("dDraft").value=cur+(cur?", and ":"")+st[0].toLowerCase()+st.slice(1);draftTouched=true;$("dCheck").innerHTML=checkHtml($("dDraft").value)});
   $("dAdd").addEventListener("click",()=>{const v=$("dDraft").value.trim();if(!v)return;if(ILO.example){ILO.list=[];ILO.example=false}ILO.list.push(v.replace(/\.$/,""));iloSave();draftTouched=false;$("dContent").value="";renderDraft();renderIlo();render();flashIlo()});
   $("markers").addEventListener("change",ev=>{const t=ev.target;if(t.dataset.ilo==null)return;const sid=t.dataset.ilo;if(t.value==="")delete S.ilolink[sid];else S.ilolink[sid]=t.value;iloSave();render();const el=$("il-"+sid);el&&el.focus()});
-  $("vagueList").textContent=VAGUE.map(v=>"“"+v+"”").join(", ");
+  $("softList").textContent=SOFT_LIST.map(v=>"“"+v+"”").join(", ");
+  $("hardList").textContent=HARD_LIST.map(v=>"“"+v+"”").join(", ");
   $("tierList").innerHTML=TIERS.map(t=>`<li><strong>${esc(t.n)}</strong> (${esc(t.lv)}): ${esc(t.v.join(", "))}</li>`).join("");
 }
 function flashIlo(){const n=$("iloNote");n.textContent="Added as ILO "+ILO.list.length;}
