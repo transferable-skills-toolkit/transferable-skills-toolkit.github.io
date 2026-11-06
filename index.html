@@ -1,0 +1,964 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Transferable Skills Toolkit</title>
+<meta name="description" content="Check ILOs and build Employability Markers for assessments using the University of Glasgow Transferable Skills Language.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%2314213d'/%3E%3Crect x='6' y='17' width='20' height='7' fill='%23ffe24a'/%3E%3Ctext x='16' y='22' font-family='Arial' font-weight='700' font-size='14' text-anchor='middle' fill='%2314213d'%3EAIS%3C/text%3E%3C/svg%3E">
+<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: "marking desk" — navy ink band with folder tabs; numbered steps on the left, the AIS shown as an answer-booklet page (red margin rule) on the right; chosen statements get a highlighter swipe */
+:root{
+  --paper:#e9edf2; --sheet:#fcfdfe; --ink:#14213d; --muted:#556178; --line:#cfd6e0; --soft:#dde3eb;
+  --band:#14213d; --band-ink:#f3f6fa; --band-muted:#a9b6cc;
+  --accent:#1d4ed8; --accent-ink:#ffffff; --accent-soft:#dfe8fb;
+  --hl:#ffe24a; --hl-ink:#14213d; --margin:#d6453a;
+  --f-cog:#8a3b12; --f-cog-bg:#fbeee6; --f-col:#1d6b52; --f-col-bg:#e3f3ec;
+  --f-com:#2b4fa2; --f-com-bg:#e6ecfa; --f-cre:#7a2f84; --f-cre-bg:#f4e8f6;
+  --warn:#8a5a00; --warn-bg:#fff3d6; --ok:#1d6b52;
+  --display:"Bricolage Grotesque", "Arial Narrow", system-ui, sans-serif;
+  --body:"Atkinson Hyperlegible", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono:"JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+  --gut-l:max(16px,env(safe-area-inset-left,0px)); --gut-r:max(16px,env(safe-area-inset-right,0px));
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#0e131b; --sheet:#171e2a; --ink:#e6ebf2; --muted:#9aa6b8; --line:#2b3545; --soft:#1f2836;
+  --band:#0a0f17; --band-ink:#f3f6fa; --band-muted:#8f9cb3;
+  --accent:#8fb2ff; --accent-ink:#0b1220; --accent-soft:#1c2a45;
+  --hl:#6b5a0e; --hl-ink:#fff6c8; --margin:#ff7a6b;
+  --f-cog:#f0a77c; --f-cog-bg:#3a2418; --f-col:#7fd1b2; --f-col-bg:#16332a;
+  --f-com:#9db6f2; --f-com-bg:#1c2848; --f-cre:#dc9ee6; --f-cre-bg:#35203a;
+  --warn:#f2c46b; --warn-bg:#3a2e12; --ok:#7fd1b2; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#0e131b; --sheet:#171e2a; --ink:#e6ebf2; --muted:#9aa6b8; --line:#2b3545; --soft:#1f2836;
+  --band:#0a0f17; --band-ink:#f3f6fa; --band-muted:#8f9cb3;
+  --accent:#8fb2ff; --accent-ink:#0b1220; --accent-soft:#1c2a45;
+  --hl:#6b5a0e; --hl-ink:#fff6c8; --margin:#ff7a6b;
+  --f-cog:#f0a77c; --f-cog-bg:#3a2418; --f-col:#7fd1b2; --f-col-bg:#16332a;
+  --f-com:#9db6f2; --f-com-bg:#1c2848; --f-cre:#dc9ee6; --f-cre-bg:#35203a;
+  --warn:#f2c46b; --warn-bg:#3a2e12; --ok:#7fd1b2; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.5;padding:0 0 48px}
+.inner{max-width:1240px;margin:0 auto;padding-left:var(--gut-l);padding-right:var(--gut-r)}
+.wrap{display:flex;flex-direction:column;gap:0}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.1}
+h1{font-size:clamp(2rem,1.2rem + 3.2vw,3.4rem);font-weight:800;letter-spacing:-.02em}
+h2{font-size:1.35rem;font-weight:700;letter-spacing:-.01em}
+h3{font-size:1.02rem;font-weight:700}
+p{margin:0}
+a{color:var(--accent);text-underline-offset:2px}
+button:focus-visible,select:focus-visible,textarea:focus-visible,input:focus-visible,a:focus-visible,summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+/* band */
+header.top{background:var(--band);color:var(--band-ink)}
+header.top .inner{padding-block:28px 0;display:flex;flex-direction:column;gap:18px}
+.eyebrow{font-family:var(--mono);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--band-muted)}
+h1 .hl{background:linear-gradient(180deg,transparent 58%,var(--hl) 58%,var(--hl) 92%,transparent 92%);color:inherit;padding:0 .06em}
+:root:not([data-theme="light"]) h1 .hl{color:inherit}
+header.top .subtitle{font-family:var(--display);font-weight:500;font-size:clamp(1.05rem,.95rem + .5vw,1.3rem);color:var(--band-ink);margin-top:-10px;text-wrap:balance}
+header.top .lede{color:var(--band-muted);max-width:60ch;font-size:1.02rem}
+.tabs{display:flex;gap:4px;flex-wrap:wrap;margin-top:6px}
+.tabs button{border:0;background:transparent;color:var(--band-muted);font:700 .92rem var(--body);padding:11px 16px 12px;border-radius:10px 10px 0 0;cursor:pointer}
+.tabs button:hover{color:var(--band-ink)}
+.tabs button[aria-selected="true"]{background:var(--paper);color:var(--ink)}
+main.inner{padding-block:28px 0}
+
+/* build */
+.build{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:32px;align-items:start}
+@media (max-width:920px){.build{grid-template-columns:minmax(0,1fr)}}
+.col{display:flex;flex-direction:column;gap:30px;min-width:0}
+.step{display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 16px;align-items:start}
+.step > :not(.step-n){grid-column:2}
+.step-n{grid-row:1;font-family:var(--display);font-weight:800;font-size:2.6rem;line-height:.9;color:var(--accent);min-width:1.1em}
+.step-h{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
+.step-body{display:flex;flex-direction:column;gap:14px;min-width:0;padding-top:4px}
+.hint{color:var(--muted);font-size:.9rem}
+label.fl{font-weight:700;font-size:.88rem}
+select,textarea,input[type=search]{width:100%;font:inherit;color:var(--ink);background:var(--sheet);border:1.5px solid var(--line);border-radius:6px;padding:9px 10px}
+select:hover,textarea:hover{border-color:var(--muted)}
+textarea{resize:vertical;min-height:2.6em;font-size:.92rem;line-height:1.45}
+.pair{display:flex;gap:12px;flex-wrap:wrap}
+.fieldcol{display:flex;flex-direction:column;gap:6px;min-width:0;flex:0 1 9rem}
+.fieldcol.grow{flex:1 1 16rem}
+.fgroups{display:flex;flex-direction:column;gap:14px}
+.fgroup{display:flex;flex-direction:column;gap:8px}
+.fgroup h3{font-family:var(--mono);font-weight:500;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{display:inline-flex;align-items:center;gap:7px;border:1.5px solid var(--line);background:var(--sheet);color:var(--ink);border-radius:6px;padding:6px 11px;font:400 .88rem var(--body);cursor:pointer;text-align:left}
+.chip:hover{border-color:var(--ink)}
+.chip .tick{display:inline-grid;place-items:center;width:15px;height:15px;border:1.5px solid var(--muted);border-radius:3px;font:700 .7rem var(--mono);line-height:1}
+.chip[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--sheet)}
+.chip[aria-pressed="true"] .tick{border-color:var(--hl);background:var(--hl);color:var(--hl-ink)}
+
+.section-h{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.count{font-family:var(--mono);font-size:.8rem;padding:3px 9px;border-radius:4px;background:var(--soft);color:var(--muted)}
+.count.warn{background:var(--warn-bg);color:var(--warn)}
+.mk-list{display:flex;flex-direction:column;gap:10px}
+.mk{border:1.5px solid var(--line);border-radius:8px;padding:14px;display:flex;flex-direction:column;gap:10px;background:var(--sheet)}
+.mk.off{background:transparent;border-style:dashed}
+.mk.off .mk-body{display:none}
+.mk-top{display:flex;gap:10px;align-items:flex-start}
+.mk-top input[type=checkbox]{margin-top:4px;width:17px;height:17px;accent-color:var(--ink);flex:none}
+.mk-title{display:flex;flex-wrap:wrap;gap:4px 8px;align-items:center;min-width:0;flex:1;cursor:pointer}
+.mk-title strong{font-family:var(--display);font-weight:700;font-size:1.08rem;flex-basis:100%}
+.areaname{color:var(--muted);font-size:.84rem}
+.fam{font-family:var(--mono);font-size:.66rem;letter-spacing:.08em;text-transform:uppercase;padding:2px 6px;border-radius:3px;white-space:nowrap}
+.fam.Cognition{color:var(--f-cog);background:var(--f-cog-bg)}
+.fam.Collection{color:var(--f-col);background:var(--f-col-bg)}
+.fam.Communication{color:var(--f-com);background:var(--f-com-bg)}
+.fam.Creation{color:var(--f-cre);background:var(--f-cre-bg)}
+.why{display:flex;flex-wrap:wrap;gap:6px;align-items:center;padding-left:27px;font-size:.8rem}
+.why-l{font-family:var(--mono);font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.why-i{border:1px solid var(--line);border-radius:4px;padding:1px 7px;color:var(--ink);background:var(--paper)}
+.why-i.you{border-style:dashed}
+.mk-body{display:flex;flex-direction:column;gap:7px;padding-left:27px}
+.stmts{display:flex;flex-direction:column;gap:6px}
+.stmt{display:flex;gap:8px;align-items:flex-start;font-size:.92rem;cursor:pointer}
+.stmt input{margin-top:4px;accent-color:var(--ink);flex:none}
+.stmt input:checked + span{background:linear-gradient(180deg,transparent 12%,var(--hl) 12%,var(--hl) 92%,transparent 92%);color:var(--hl-ink);box-decoration-break:clone;-webkit-box-decoration-break:clone;padding:0 3px;border-radius:2px}
+.warn-text{color:var(--warn)}
+details.stm summary{cursor:pointer;color:var(--muted);font-size:.82rem}
+details.stm .stmts{margin-top:6px}
+.cvlab{font-size:.78rem;color:var(--muted);font-weight:700;margin-top:2px}
+.add-row{display:flex;gap:8px;flex-wrap:wrap}
+.add-row select{flex:1;min-width:0}
+.area{display:flex;flex-direction:column;gap:10px}
+.subtle-list{display:flex;flex-wrap:wrap;gap:6px}
+.sugg{border:1.5px dashed var(--line);background:transparent;color:var(--ink);border-radius:6px;padding:5px 10px;font:400 .84rem var(--body);cursor:pointer;display:inline-flex;gap:6px;align-items:center;text-align:left}
+.sugg:hover{border-color:var(--ink)}
+.empty{color:var(--muted);font-size:.9rem;padding:8px 0}
+.btn{font:700 .9rem var(--body);border-radius:6px;padding:9px 15px;cursor:pointer;border:1.5px solid var(--ink);background:var(--ink);color:var(--sheet)}
+.btn:hover{filter:brightness(1.15)}
+.btn.ghost{background:transparent;color:var(--ink)}
+.btn.small{padding:5px 10px;font-size:.8rem}
+.linkbtn{border:0;background:none;padding:0;font:inherit;color:var(--accent);text-decoration:underline;text-underline-offset:2px;cursor:pointer}
+
+/* answer-booklet preview */
+.preview{position:sticky;top:calc(env(safe-area-inset-top,0px) + 14px);display:flex;flex-direction:column;gap:12px}
+@media (max-width:920px){.preview{position:static}}
+.sheet{position:relative;background:var(--sheet);border:1px solid var(--line);border-radius:3px;padding:24px 22px 24px 46px;display:flex;flex-direction:column;gap:14px;min-width:0;box-shadow:0 1px 0 var(--line),0 10px 24px -14px rgba(20,33,61,.35)}
+.sheet::before{content:"";position:absolute;top:0;bottom:0;left:30px;border-left:2px solid var(--margin);opacity:.75}
+.sheet .crumb{font-family:var(--mono);font-size:.72rem;color:var(--muted);letter-spacing:.02em}
+.sheet h3{font-family:var(--body);font-weight:700;font-size:1rem}
+.sheet h3 .hint{font-weight:400}
+.sheet ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:4px}
+.outmk{display:flex;flex-direction:column;gap:22px}
+.mkey{font-size:.86rem;color:var(--muted);max-width:60ch}
+.og{display:flex;flex-direction:column;gap:6px;padding-top:14px;border-top:1px solid var(--line)}
+.og-area{font-size:.8rem;color:var(--muted)}
+.og-skill{font-size:.98rem;margin-top:6px}
+.og ul{gap:6px}
+.og-how{font-size:.9rem;padding-left:18px;color:var(--muted)}
+.sheet #whyWrap,.sheet #cvWrap{margin-top:18px;padding-top:22px;border-top:2px solid var(--ink)}
+.sheet li{font-size:.93rem}
+.sheet .whytext,.sheet .cvintro{font-size:.92rem}
+.sheet .cvintro{color:var(--muted)}
+.toggle{display:flex;gap:8px;align-items:center;font-size:.88rem}
+.toggle input{accent-color:var(--ink)}
+.copybar{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.status{font-size:.84rem;color:var(--ok)}
+.fallback{width:100%;min-height:8em;font-family:var(--mono);font-size:.8rem}
+.note{border-left:4px solid var(--hl);background:var(--sheet);padding:10px 14px;font-size:.88rem;display:flex;flex-direction:column;gap:4px;border-radius:0 6px 6px 0}
+
+/* browse */
+.browse-head{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-bottom:18px}
+.browse-head input{flex:1;min-width:0;max-width:440px}
+.area-h{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.area-h a{font-size:.84rem}
+.bm{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px 14px;align-items:start;background:var(--sheet);border:1.5px solid var(--line);border-radius:8px;padding:12px 14px}
+.bm .d{color:var(--muted);font-size:.86rem}
+.bm ul{grid-column:1/-1;margin:0;padding-left:18px;font-size:.86rem;color:var(--muted)}
+
+/* rules */
+.prose{max-width:68ch;display:flex;flex-direction:column;gap:12px}
+.prose ul,.prose ol{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px}
+.rules{display:flex;flex-direction:column;gap:28px}
+.rules-h{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap}
+.tablewrap{overflow-x:auto;border:1.5px solid var(--line);border-radius:8px;background:var(--sheet)}
+table.rt{border-collapse:collapse;width:100%;min-width:720px;font-size:.86rem}
+table.rt th,table.rt td{text-align:left;vertical-align:top;padding:10px 12px;border-bottom:1px solid var(--line)}
+table.rt th{font-family:var(--mono);font-weight:500;font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);background:var(--paper);position:sticky;top:0}
+table.rt tr.grp td{font-family:var(--display);font-weight:700;font-size:1rem;background:var(--soft);color:var(--ink)}
+table.rt td.nm{font-weight:700;width:18%}
+.ri{display:block;margin-bottom:6px}
+.ri:last-child{margin-bottom:0}
+.ri b{font-weight:700}
+.ri q{color:var(--muted);quotes:"\201C" "\201D"}
+.ri.opt b{font-weight:400;font-style:italic}
+.pill{font-family:var(--mono);font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;padding:2px 6px;border-radius:4px;background:var(--hl);color:var(--hl-ink);vertical-align:middle;font-weight:500}
+.ilo-list{display:flex;flex-direction:column;gap:14px}
+.ilo{display:flex;flex-direction:column;gap:8px;background:var(--sheet);border:1.5px solid var(--line);border-radius:8px;padding:14px}
+.ilo-check{display:flex;flex-direction:column;gap:6px}
+.ck{display:flex;flex-direction:column;gap:2px;font-size:.86rem;border-left:3px solid var(--line);padding:4px 0 4px 10px}
+.ck.warn{border-color:var(--warn)} .ck.warn strong{color:var(--warn)}
+.ck.ok{border-color:var(--ok)}
+.ck.info{border-color:var(--accent)}
+.draft{display:flex;flex-direction:column;gap:12px;background:var(--sheet);border:1.5px solid var(--line);border-radius:8px;padding:16px}
+input[type=text]{width:100%;font:inherit;color:var(--ink);background:var(--sheet);border:1.5px solid var(--line);border-radius:6px;padding:9px 10px}
+.howchecks{border-top:1px solid var(--line);padding-top:14px}
+.howchecks summary{cursor:pointer;font-weight:700}
+.howchecks .prose{margin-top:12px}
+.guide{max-width:72ch}
+.guide h3{margin-top:10px}
+table.rt.compact{min-width:560px}
+.exgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr));gap:12px}
+.exm{background:var(--sheet);border:1.5px solid var(--line);border-radius:8px;padding:14px;display:flex;flex-direction:column;gap:5px;font-size:.92rem}
+.exm ul{margin:0;padding-left:18px}
+.faq{margin:0;display:flex;flex-direction:column;gap:4px}
+.faq dt{font-weight:700;margin-top:8px}
+.faq dd{margin:0;color:var(--ink)}
+blockquote{margin:0;border-left:4px solid var(--hl);padding:8px 14px;background:var(--sheet);border-radius:0 6px 6px 0}
+footer{color:var(--muted);font-size:.82rem;border-top:1px solid var(--line);padding-top:14px;margin-top:40px}
+@media (prefers-reduced-motion:no-preference){.mk,.chip,.btn{transition:background .15s,border-color .15s,filter .15s}}
+</style>
+</head>
+<body>
+
+
+<div class="wrap">
+  <header class="top">
+    <div class="inner">
+      <div class="eyebrow">School of Psychology &amp; Neuroscience · Curriculum and assessment · Pilot</div>
+      <h1>Transferable Skills Toolkit</h1>
+      <p class="subtitle">Embed the University's Skills Language into your ILOs and assessments</p>
+      <p class="lede">Check your ILOs, then build Employability Markers for each assessment, using the exact wording of the University's Transferable Skills Language. Every suggestion shows why it was made.</p>
+      <div class="tabs" role="tablist" aria-label="Views">
+        <button role="tab" id="tab-ilo" aria-selected="false" data-view="ilo">ILOs <span class="pill">Pilot</span></button>
+        <button role="tab" id="tab-build" aria-selected="true" data-view="build">Build markers</button>
+        <button role="tab" id="tab-rules" aria-selected="false" data-view="rules">How suggestions work</button>
+        <button role="tab" id="tab-browse" aria-selected="false" data-view="browse">Skills Language</button>
+        <button role="tab" id="tab-guide" aria-selected="false" data-view="guide">Writing guide</button>
+      </div>
+    </div>
+  </header>
+<main class="inner">
+  <!-- BUILD -->
+  <section id="view-build" class="build">
+    <div class="col">
+      <div class="step">
+        <span class="step-n" aria-hidden="true">1</span>
+        <div class="step-body">
+        <h2>Your assessment</h2>
+        <div class="pair">
+          <div class="fieldcol grow"><label class="fl" for="atype">Assessment type</label>
+            <select id="atype"></select></div>
+        </div>
+        <p class="hint" id="typeHint"></p>
+        </div>
+      </div>
+
+      <div class="step">
+        <span class="step-n" aria-hidden="true">2</span>
+        <div class="step-body">
+        <h2>What students actually do</h2>
+        <p class="hint">Tick anything that is a real, assessed part of the task. Each one adds a sub-heading, and the marker will say which tick added it. <span id="featCount"></span></p>
+        <div class="fgroups" id="features"></div>
+        </div>
+      </div>
+
+      <div class="step">
+        <span class="step-n" aria-hidden="true">3</span>
+        <div class="step-body">
+        <div class="section-h"><h2>Markers</h2><span class="count" id="count"></span></div>
+        <p class="hint">Each marker is a Skills Language sub-heading, with statements quoted exactly from the framework. Highlighted statements go into the AIS. "Why suggested" shows where each one came from; the full rules are under <button type="button" class="linkbtn" data-view="rules">How suggestions work</button>.</p>
+        <div class="mk-list" id="markers"></div>
+        <div id="alsoWrap" class="area">
+          <h3>Also worth considering</h3>
+          <div class="subtle-list" id="also"></div>
+        </div>
+        <div class="add-row">
+          <select id="addAny" aria-label="Add any marker from the Skills Language"></select>
+          <button class="btn ghost" id="addBtn" type="button">Add</button>
+        </div>
+        </div>
+      </div>
+    </div>
+
+    <aside class="preview" aria-label="AIS preview">
+      <div class="sheet" id="sheet">
+        <div class="crumb" id="crumb">Learning Objectives and Employability Markers</div>
+        <h3>Employability Markers</h3>
+        <div id="outList" class="outmk"></div>
+        <div id="whyWrap" class="area">
+          <h3>Why Are We Assessing Like This <span class="hint">(employability sentence to add)</span></h3>
+          <p class="whytext" id="whyText"></p>
+        </div>
+        <div id="cvWrap" class="area">
+          <h3>Describing these skills</h3>
+          <p class="cvintro">Examples of how you could describe these skills in a CV, application or interview. Adapt them to what you actually did.</p>
+          <ul id="cvList"></ul>
+        </div>
+      </div>
+      <label class="toggle"><input type="checkbox" id="incWhy" checked> Include the "Why are we assessing like this" sentence</label>
+      <label class="toggle"><input type="checkbox" id="incLinks" checked> Link students to the matching Skills Profiles</label>
+      <label class="toggle"><input type="checkbox" id="incCV" checked> Include example CV lines for students</label>
+      <div class="copybar">
+        <button class="btn" id="copyRich" type="button">Copy for Moodle</button>
+        <button class="btn ghost" id="copyPlain" type="button">Copy as plain text</button>
+        <span class="status" id="status" role="status"></span>
+      </div>
+      <textarea class="fallback" id="fallback" hidden aria-label="Text to copy" readonly></textarea>
+      <div class="note">
+        <strong>Before you paste</strong>
+        <span>Keep 3 to 6 markers. Each one should point to something students are marked on or clearly practise in this task. Put the markers under your Learning Objectives.</span>
+      </div>
+    </aside>
+  </section>
+
+  <!-- RULES -->
+  <section id="view-rules" hidden>
+    <div class="rules">
+      <div class="prose">
+        <h2>How suggestions work</h2>
+        <p>The toolkit follows a short set of fixed rules. Nothing is generated or guessed: every suggestion comes from one of the tables below, and you can change any of it before you copy.</p>
+        <ol>
+          <li><strong>Your assessment type</strong> pre-selects its usual sub-headings, each with up to two statements highlighted. If two suggestions share a sub-heading, the first two statements are kept.</li>
+          <li><strong>Each thing you tick</strong> in step 2 adds one more sub-heading. The marker shows which tick added it.</li>
+          <li><strong>"Also worth considering"</strong> lists optional sub-headings for that type. They are only added if you choose them.</li>
+          <li><strong>You decide.</strong> Untick a marker, change its statements, or add any of the 37 sub-headings yourself. Statements are always quoted word for word from the Transferable Skills Language.</li>
+        </ol>
+        <p class="hint">The same rules are in the AIS Skills Markers spreadsheet, where you can see and edit the pre-selected skills for every assessment type. Suggested changes to the rules are welcome.</p>
+      </div>
+      <div class="area">
+        <div class="rules-h"><h2>Assessment types</h2><span class="hint" id="rulesTypesN"></span></div>
+        <p class="hint">Pre-selected sub-headings in bold; optional ones in italics. Quoted statements are the ones highlighted by default.</p>
+        <div class="tablewrap"><table class="rt" id="rulesTypes"></table></div>
+      </div>
+      <div class="area">
+        <div class="rules-h"><h2>What students do</h2><span class="hint" id="rulesFeatsN"></span></div>
+        <div class="tablewrap"><table class="rt" id="rulesFeats"></table></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BROWSE -->
+  <section id="view-browse" hidden>
+    <div class="browse-head">
+      <input type="search" id="q" placeholder="Search skills or statements, e.g. ethics, visual, team">
+      <span class="hint" id="qCount"></span>
+    </div>
+    <div id="browse" class="area" style="gap:24px"></div>
+  </section>
+
+  <!-- ILOS (pilot) -->
+  <section id="view-ilo" hidden>
+    <div class="rules">
+      <div class="prose">
+        <h2>ILOs <span class="pill">Pilot</span></h2>
+        <p>Check your course's intended learning outcomes against the Transferable Skills Language, draft new ones with framework wording to hand, and link each marker to the ILO it supports. Nothing is rewritten for you: the checks are simple rules, listed at the bottom of this page.</p>
+      </div>
+
+      <div class="area">
+        <div class="rules-h"><h2>1. Your course ILOs</h2><span class="hint" id="iloNote"></span></div>
+        <p class="hint">One ILO per box. The checks update as you type. The examples are there to show how it works; replace them with your own.</p>
+        <div id="iloList" class="ilo-list"></div>
+        <div class="add-row"><button class="btn ghost" type="button" id="iloAdd">Add an ILO</button><button class="btn ghost" type="button" id="iloClear">Clear all</button></div>
+      </div>
+
+      <div class="area">
+        <h2>2. Draft a new ILO</h2>
+        <p class="hint">Start with a verb students can show, add your subject content, then borrow framework wording for the skill. Edit the draft freely before adding it.</p>
+        <div class="draft">
+          <div class="pair">
+            <div class="fieldcol"><label class="fl" for="dVerb">Verb</label><select id="dVerb"></select></div>
+            <div class="fieldcol grow"><label class="fl" for="dContent">Subject content</label><input type="text" id="dContent" placeholder="e.g. theories of memory to everyday memory failures"></div>
+          </div>
+          <div class="fieldcol grow"><label class="fl" for="dSub">Skill to build in (optional)</label><select id="dSub"></select></div>
+          <div id="dStmts" class="subtle-list"></div>
+          <label class="fl" for="dDraft">Draft ILO</label>
+          <textarea id="dDraft" rows="3"></textarea>
+          <div id="dCheck" class="ilo-check"></div>
+          <div class="add-row"><button class="btn" type="button" id="dAdd">Add to my ILOs</button></div>
+        </div>
+      </div>
+
+      <div class="area">
+        <h2>3. Link markers to ILOs</h2>
+        <p>Once your ILOs are here, each marker in <button type="button" class="linkbtn" data-view="build">Build markers</button> gets a "Supports which ILO?" menu, and the marker count shows how many are not linked. A marker with no ILO behind it is usually either a skill students only practise (consider leaving it out) or a sign that an ILO needs to mention it.</p>
+      </div>
+
+      <details class="howchecks">
+        <summary>How the checks work</summary>
+        <div class="prose">
+          <p><strong>Hard-to-observe verbs.</strong> An ILO is flagged if it starts with, or is built around: <span id="vagueList"></span>. These describe what happens in a student's head, which a marker cannot see.</p>
+          <p><strong>Verb level.</strong> The first recognised verb is placed in one of five groups, based on Bloom's revised taxonomy. The Level guidance is typical practice, not a rule:</p>
+          <ul id="tierList"></ul>
+          <p><strong>Possibly covering too much.</strong> Flagged when an ILO is over 45 words or uses three or more different verbs from the list above.</p>
+          <p><strong>Skills Language it may touch.</strong> Words in the ILO are compared with the words in each sub-heading and its statements (matching on the first five letters, ignoring common words). A sub-heading needs at least two matching words to be shown. Words that are rarer in the framework, or that appear in the sub-heading's own name, count for more. The top matches are shown with the words that matched. Treat these as prompts to check, not conclusions.</p>
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <!-- GUIDE -->
+  <section id="view-guide" hidden>
+    <div class="prose guide">
+      <h2>Writing markers that students can use</h2>
+      <p>Each marker names a skill (the Skills Language sub-heading) and the skill area it belongs to, then lists what students will do, using statements quoted exactly from the framework. Students can find the same words on the University's Skills Language pages and borrow them for CVs, applications and interviews.</p>
+
+      <h3>A good marker</h3>
+      <ul>
+        <li><strong>Keeps the framework wording.</strong> Choose the statements that fit; don't rewrite them.</li>
+        <li><strong>Uses one or two statements.</strong> More than that is hard for students to take in.</li>
+        <li><strong>Says how students show it in this task,</strong> in the optional How line.</li>
+        <li><strong>Matches the marking.</strong> If nothing in the rubric or task rewards it, leave it out.</li>
+        <li><strong>Traces back to an ILO.</strong> Every marker should support one of the course's intended learning outcomes.</li>
+      </ul>
+
+      <h3>Writing a good How line</h3>
+      <p>The How line turns a general statement into something a student recognises in this task. Point to a part of the assessment and say what they do there.</p>
+      <div class="tablewrap"><table class="rt compact">
+        <thead><tr><th>Weak</th><th>Stronger</th><th>Why</th></tr></thead>
+        <tbody>
+          <tr><td>in the report</td><td>by explaining what your main effects and interactions mean in plain terms</td><td>Names the action and the section</td></tr>
+          <tr><td>by working in a group</td><td>by agreeing roles at the start and updating your group on your section each week</td><td>Says what good teamwork looks like here</td></tr>
+          <tr><td>by being critical</td><td>by explaining how the sampling method limits who the findings apply to</td><td>Gives a concrete example of critique</td></tr>
+        </tbody>
+      </table></div>
+
+      <h3>Examples by assessment group</h3>
+      <div class="exgrid">
+        <div class="exm"><p class="og-area">Exams · Essay exam</p><p><em>Skill area: Use concepts, theories and models</em></p><p><strong>Conceptual awareness</strong></p><ul><li>Recognise, understand and interpret a range of concepts, theories or models</li></ul><p class="og-how"><em>How:</em> by choosing the theories that best answer the question and explaining why.</p></div>
+        <div class="exm"><p class="og-area">Written coursework · Essay</p><p><em>Skill area: Collect information and data</em></p><p><strong>Source identification and evaluation</strong></p><ul><li>Recognise the relevance and trustworthiness of sources of information, data and evidence</li></ul><p class="og-how"><em>How:</em> by choosing peer-reviewed sources and noting their limitations.</p></div>
+        <div class="exm"><p class="og-area">Communication outputs · Poster</p><p><em>Skill area: Communicating through content</em></p><p><strong>Content creation</strong></p><ul><li>Condense, simplify and summarise content meaningfully and according to your audience</li></ul><p class="og-how"><em>How:</em> by fitting a full study onto one poster that a non-specialist can follow.</p></div>
+        <div class="exm"><p class="og-area">Data and practical · Lab report</p><p><em>Skill area: Analyse context, information, data and evidence</em></p><p><strong>Analytical techniques</strong></p><ul><li>Interpret results</li><li>Recognise patterns, exceptions, correlations or structures</li></ul><p class="og-how"><em>How:</em> by explaining what your main effects and interactions show.</p></div>
+        <div class="exm"><p class="og-area">Projects and portfolios · Dissertation</p><p><em>Skill area: Research processes, scoping and management</em></p><p><strong>Research management</strong></p><ul><li>Organise and manage research projects and time effectively</li></ul><p class="og-how"><em>How:</em> by keeping to the milestones agreed with your supervisor.</p></div>
+        <div class="exm"><p class="og-area">Projects and portfolios · Reflective log</p><p><em>Skill area: Use methods, techniques and processes</em></p><p><strong>Interpret results</strong></p><ul><li>Reflect, including for, in and on action you have taken</li></ul><p class="og-how"><em>How:</em> by noting what you would change after each placement session, and why.</p></div>
+      </div>
+
+      <h3>How markers, ILOs and rubrics fit together</h3>
+      <ol>
+        <li><strong>ILOs</strong> say what students will be able to do by the end of the course. They are approved in the PIP.</li>
+        <li><strong>Rubric criteria</strong> mark each ILO in a specific task.</li>
+        <li><strong>Markers</strong> tell students which Skills Language skills those criteria reward, in words they can reuse.</li>
+      </ol>
+      <p>If a marker has no ILO or rubric criterion behind it, either leave it out or ask whether the ILO should mention it. The ILOs tab can help with that check.</p>
+
+      <h3>Common questions</h3>
+      <dl class="faq">
+        <dt>A skill is practised in the task but not marked. Should it be a marker?</dt>
+        <dd>Usually not. Markers should point to what students are assessed on. If the skill matters, consider adding a line for it to the rubric.</dd>
+        <dt>How do I handle group work?</dt>
+        <dd>Only add Teamwork and collaboration if the group process is assessed, for example through peer assessment or a reflective account. A group output marked as a single product usually credits the content skills, not teamwork.</dd>
+        <dt>How many markers should I use?</dt>
+        <dd>Three to six. Fewer than three undersells most tasks; more than six becomes a list students skip.</dd>
+        <dt>Can I change the framework wording?</dt>
+        <dd>No. Keep the statements as written so students can find them on the Skills Language pages. Put task-specific detail in the How line.</dd>
+        <dt>Do I need a How line for every marker?</dt>
+        <dd>It is optional, but it is what makes a marker meaningful to students. Aim to add one for at least the markers that are least obvious.</dd>
+      </dl>
+
+      <h3>Explaining markers to students</h3>
+      <p>A short paragraph you could add to Moodle:</p>
+      <blockquote>Each assessment lists Employability Markers: the skills from the University's Transferable Skills Language that the task develops and rewards. Use the same words when you describe your skills in a CV, application or interview, and follow the Skills Profiles links to see what these skills look like in real jobs.</blockquote>
+
+      <h3>Where it goes in the AIS</h3>
+      <p>Rename the <em>Learning Objectives</em> heading to <em>Learning Objectives and Employability Markers</em> and add the markers underneath. Add the employability sentence to <em>Why Are We Assessing Like This</em>.</p>
+      <h3>Skills Profiles for students</h3>
+      <p>The <a href="https://www.gla.ac.uk/myglasgow/careers/career-development/skills/profiles/" target="_blank" rel="noopener">Skills Profiles</a> show what each skill looks like in real jobs. Linking them from the AIS gives students a next step.</p>
+    </div>
+  </section>
+
+</main>
+  <footer class="inner">Skills vocabulary from the University of Glasgow Transferable Skills Language (co-created by staff and students). Recommendations are a starting point; the course lead decides what each assessment develops.</footer>
+</div>
+
+<script>
+// ===== Transferable Skills Language: areas, sub-headings and statements (verbatim from the framework text supplied by the School) =====
+const SP = "https://gla.sharepoint.com/sites/SkillsLanguage/SitePages/";
+const PROF = "https://www.gla.ac.uk/myglasgow/careers/career-development/skills/profiles/";
+const PROFILES = {
+  analysis:["Analysis",PROF+"analysis/"], evaluation:["Evaluation",PROF+"evaluation/"], digital:["Digital Literacy",PROF+"digitalliteracy/"],
+  communication:["Communication",PROF+"communication/"], presentation:["Presentation",PROF+"presentation/"],
+  creative:["Creative Thinking",PROF+"creativethinking/"], innovation:["Innovation",PROF+"innovation/"],
+  problem:["Problem Solving",PROF+"problemsolving/"], decision:["Decision Making",PROF+"decisionmaking/"],
+  project:["Project Management",PROF+"projectmanagement/"], teamwork:["Teamwork",PROF+"teamwork/"], failure:["Learning from Failure",PROF+"learningfromfailure/"]
+};
+// closest Skills Profile for a sub-heading (falls back to the area's profile)
+const SUBPROF = {"ps-dec":"decision","res-mgmt":"project","cw-team":"teamwork","de-appr":"failure"};
+const profFor = sid => SUBPROF[sid] || SUB[sid].area.prof;
+const AREAS = [
+ {id:"an", fam:"Cognition", name:"Analyse context, information, data and evidence", url:SP+"Analyse-context,-information,-data-and-evidence.aspx", prof:"analysis", subs:[
+  {id:"an-focus", name:"Analytical focus", st:["Analyse the relevance of primary and secondary information, data and evidence","Analyse context","Analyse risk","Synthesise information, data and evidence from diverse sources for analysis","Filter sources of information, data and evidence","Analyse new developments in research"], cv:"Synthesised information from diverse sources to analyse a question in context."},
+  {id:"an-tech", name:"Analytical techniques", st:["Digest and categorise information quickly","Create, select, synthesise and apply qualitative and quantitative analytical tools and techniques as appropriate","Analyse and explore critically, applying objectivity as appropriate","Manage and recognise complexity with care and precision","Interpret results","Identify and evaluate meaning, narratives and explanations","Recognise and respond to different disciplinary positions and methodologies","Draw inferences","Recognise patterns, exceptions, correlations or structures","Make connections, contrasts or comparisons","Challenge controversial and incorrect data and evidence","Use technology effectively","Explore and evaluate the impact of context on production and reception","Identify and evaluate the moral or ethical considerations of the context"], cv:"Analysed information critically, interpreting results and recognising patterns."},
+  {id:"an-eval", name:"Evaluation of analysis", st:["Critically evaluate your analysis from different perspectives","Interpret analysis of narratives, information, data and evidence","Make judgements and interpret meaning, avoiding bias","Decide how to address unexpected results of analysis","Derive relevance from analysis for your own or other contexts or subjects","Challenge the status quo"], cv:"Evaluated my analysis from different perspectives and reached balanced judgements."}]},
+ {id:"ct", fam:"Cognition", name:"Use concepts, theories and models", url:SP+"Use-Concepts,-Theories,-and-Models.aspx", prof:null, subs:[
+  {id:"ct-aware", name:"Conceptual awareness", st:["Recognise, understand and interpret a range of concepts, theories or models","Evaluate which, when and how to use concepts, theories or models"], cv:"Understood a range of theories and chose the right ones for the question."},
+  {id:"ct-apply", name:"Apply concepts, theories or models", st:["Apply concepts, theories or models to specific opportunities, problems or contexts with attention to detail","Use existing concepts, theories or models as a starting point or lens","Creatively combine different concepts, theories or models","Adapt a concept, theory or model to your needs or to improve them","Use concepts, theories or models to analyse expected and unexpected results","Validate real world problems by applying concepts, theories or models","Think abstractly"], cv:"Applied psychological theories and models to real-world problems."},
+  {id:"ct-eval", name:"Evaluation of concepts, theories or models", st:["Evaluate, test and constructively challenge concepts, theories or models","Understand the limits of concepts, theories and models","Identify intersections of concepts, theories or models","Create nuance in quantitative analysis by using qualitative data","Understand ethical issues and professional standards relevant to discipline"], cv:"Critically evaluated theories and models, including their limits."}]},
+ {id:"mt", fam:"Cognition", name:"Use methods, techniques and processes", url:SP+"Use-Methods,-Techniques,-and-Processes.aspx", prof:null, subs:[
+  {id:"mt-aware", name:"Methodological awareness", st:["Identify the appropriate methods, techniques or processes to answer a question or generate appropriately accurate results","Select the methods, techniques or processes relevant to context","Evaluate the limits of methods, techniques and processes"], cv:"Chose appropriate methods for the task and recognised their limitations."},
+  {id:"mt-apply", name:"Apply methods, techniques and processes", st:["Use methods, techniques or processes, including experimentally","Solve problems by applying methods, techniques and processes","Apply organisational skills of task and time management","Accurately follow instructions","Apply AI and automation tools ethically, effectively and efficiently"], cv:"Applied methods and procedures accurately while managing my time and tasks."},
+  {id:"mt-eval", name:"Evaluation of methods, techniques and processes", st:["Analyse and test methods, techniques or processes, including in real world contexts","Modify methods, techniques and processes in response to feedback or results","Compare results of models with results from experiment and observation"], cv:"Tested and refined my methods in response to feedback and results."},
+  {id:"mt-interp", name:"Interpret results", st:["Recognise the role of time in creating effective solutions","Make and apply ethical considerations to interpretation of results","Reflect, including for, in and on action you have taken"], cv:"Reflected on my approach and the ethical implications of my results."}]},
+ {id:"ai", fam:"Cognition", name:"Argue and interpret", url:SP+"Argue-and-interpret(1).aspx", prof:null, subs:[
+  {id:"ai-context", name:"Define and evaluate context", st:["Contextualise and/or decontextualise an argument or perspective","Be aware of bias in questions or interactions","Identify the concepts, ideas, perspectives or points to be argued, both for and against","Evaluate and compare different arguments or perspectives","Be open to and respect other ideas, arguments, perspectives and ways of working"], cv:"Weighed the arguments for and against a position and compared different perspectives."},
+  {id:"ai-test", name:"Test arguments and interpretations", st:["Defend an argument, perspective or idea","Apply rigour to the development of arguments or perspectives, including challenging your own beliefs","Apply flexibility and resilience in the development of arguments or perspectives","Broaden the scope of arguments and perspectives","Be aware of limitations to your argument or perspective","Be aware of bias that testing creates","Listen, reflect critically and respond to different ideas and points of view","Balance the bigger picture with emphasis on detail"], cv:"Defended my argument while recognising its limitations and responding to other views."},
+  {id:"ai-build", name:"Build arguments and interpretations", st:["Think and write critically to build ideas, arguments or perspectives","Assess the relevance of and synthesise disparate ideas and information, including from other disciplines","Demonstrate depth of knowledge in constructing an argument or perspective","Construct arguments, hypotheses, statements or perspectives, using structure, logic, data and evidence","Inform, develop and align your argument or perspective with different ideas, principles or perspectives","Justify the research question and support findings","Create arguments collaboratively"], cv:"Built clear, evidence-based arguments using logic and data."},
+  {id:"ai-reflect", name:"Reflect on the response to arguments and interpretations", st:["Be aware of what is implied as well as actual questions and challenges","Recognise and respond constructively to failure and feedback","Reflect on unexpected outcomes"], cv:"Responded constructively to challenges and feedback on my arguments."},
+  {id:"ai-comm", name:"Communicate arguments and interpretations", st:["Discuss arguments or interpretations","Have confidence in your ability to build argument or interpretation","Influence others through the presentation of arguments or perspectives"], cv:"Presented and discussed my arguments confidently and persuasively."}]},
+ {id:"ps", fam:"Cognition", name:"Solve problems and make decisions", url:SP+"Solve-problems-and-make-decisions.aspx", prof:"problem", subs:[
+  {id:"ps-frame", name:"Problem framing", st:["Contextualise and/or decontextualise a problem or decision","Analyse the relevance of context to problem-solving or decision-making","Appraise the value, impact or significance of problems or decisions","Identify the relevant principles or ideas for the problem or decision","Recognise open-ended problems or decisions","Recognise problems and decisions that cross subject boundaries","Predict problems or decisions that may arise"], cv:"Framed problems clearly in their context, including open-ended and cross-disciplinary ones."},
+  {id:"ps-appr", name:"Problem-solving approaches", st:["Plan and apply a systematic, precise and disciplined approach to the formulation of a problem or decision","Explore varied approaches, including processes of inclusion and omission","Challenge and think creatively about existing approaches, including drawing from other disciplines","Select resources to support the process","Consider and apply ethics to the process","Analyse successes and failures to learn lessons, improve approaches and avoid repeating errors","Propose recommendations based on evidence and/or theory","Make assumptions and approximations clear"], cv:"Took a systematic approach to problems and made evidence-based recommendations."},
+  {id:"ps-mind", name:"Problem-solving mindsets", st:["Be imaginative and adaptable","Apply resilience, patience and perseverance","Retain an open mind and avoid tunnel vision","Work collaboratively and independently","Manage uncertainty and ambiguity in the context, data or evidence"], cv:"Stayed adaptable and persistent when working with uncertainty."},
+  {id:"ps-solve", name:"Problem-solving", st:["Explore and define the root of a problem","Evaluate problems to inform the creation of solutions","Apply theory and knowledge to real world problems or those outside your discipline","Design and develop bespoke solutions iteratively","Apply troubleshooting techniques during problem-solving, including reframing the problem","Differentiate between solutions in order to choose the most effective one","Apply and test solutions, identifying and removing issues and flaws","Consider the impact of achieving multiple correct answers in a solution"], cv:"Identified the root of problems, then developed and tested solutions."},
+  {id:"ps-dec", name:"Decision making", st:["Explore the dimensions of the decision and its impacts","Manage and incorporate perspectives from multiple agencies in making a decision","Manage complexity, uncertainty and ambiguity in decision-making","Develop and test multiple choices in order to evaluate decisions and impacts","Make informed decisions, including on ethical grounds"], cv:"Made informed decisions after weighing up options and their impacts."}]},
+ {id:"col", fam:"Collection", name:"Collect information and data", url:SP+"Collect-Information-%26-Data.aspx", prof:"evaluation", subs:[
+  {id:"col-src", name:"Source identification and evaluation", st:["Identify and define sources of information, data and evidence","Analyse and evaluate sources of information, data and evidence","Compare and contrast sources of information, data and evidence","Recognise the relevance and trustworthiness of sources of information, data and evidence","Apply scrutiny to the ethics and trustworthiness of information, data and evidence sourcing","Be receptive to different information, data and evidence types","Use verified databases and search engines","Observe experimental results","Observe subjects, evidence or situations","Capture a range of experiences and perspectives"], cv:"Found and evaluated sources of evidence, judging their relevance and trustworthiness."},
+  {id:"col-proc", name:"Collection processes", st:["Organise and categorise information, data and evidence","Apply digital skills confidently when collecting information, data and evidence","Apply rigour, accuracy, attention to detail and reliability in information, data and evidence collection","Apply integrity, honesty and ethical awareness in information, data and evidence collection","Evaluate appropriate methods for information, data and evidence collection","Collect appropriately representative information, data and evidence","Collect information, data and evidence through experimentation or observation","Determine the limits of your information, data and evidence collection methods","Be aware of the context of information, data and evidence collection","Acknowledge own bias during observation"], cv:"Collected and organised data with rigour, accuracy and ethical awareness."},
+  {id:"col-eval", name:"Data and evidence evaluation", st:["Understand and apply relevant evaluation methods for the discipline","Make decisions about narrative, information, data and evidence selection","Choose appropriate approaches to clean datasets and manage evidence","Work effectively with imperfect or incomplete narratives, information, data or evidence","Evaluate the chosen strategy for information, data and evidence collection","Evaluate the significance and reliability of narratives, evidence, information or data"], cv:"Evaluated the quality and reliability of data and evidence before using it."}]},
+ {id:"res", fam:"Collection", name:"Research processes, scoping and management", url:SP+"Research-Processes,-Scoping-and-Management.aspx", prof:"digital", subs:[
+  {id:"res-scope", name:"Research scoping", st:["Evaluate the field's knowledge as a whole to understand where you can contribute","Research and evaluate your knowledge and its gaps to improve your understanding","Evaluate published research literature","Explore an idea","Formulate an appropriate research question","Be ethically aware in research design and practice","Know your limits in research activity","Recognise and differentiate between reproducing content and producing knowledge"], cv:"Reviewed the literature to identify a gap and formulated a focused research question."},
+  {id:"res-proc", name:"Research processes", st:["Identify trustworthy sources for primary and secondary research","Gather evidence and data from a variety of primary and secondary sources","Recognise and apply appropriate research tools and techniques for your own and other disciplinary contexts","Systematically collate and review published research literature","Test research design or models","Apply different qualitative and quantitative research approaches","Conduct research with integrity and awareness of ethical considerations","Apply digital, information, statistical and other relevant literacies to your research","Blend research methods from different disciplines where appropriate","Evidence research and reference correctly"], cv:"Applied appropriate research methods and tools, and referenced my sources correctly."},
+  {id:"res-mgmt", name:"Research management", st:["Organise and manage research projects and time effectively","Store data and evidence appropriately","Apply appropriate data protection protocols when conducting research","Use digital tools (e.g. AI) appropriately for research tasks"], cv:"Planned and managed a research project, its timeline and its data."}]},
+ {id:"cw", fam:"Communication", name:"Communicating with others", url:SP+"Communicating-With-Others.aspx", prof:"communication", subs:[
+  {id:"cw-beh", name:"Communication behaviours", st:["Be open and inclusive, building trust when working with others","Build effective dialogue when working with others, recognising their skills and strengths","Articulate your thinking, methods and processes","Influence and inspire others through your ideas","Reflect on the experience of working with others and act on your learning","Receive feedback constructively","Be aware of and respond to non-verbal cues when working with others","Be precise in communication"], cv:"Explained my thinking clearly and acted constructively on feedback."},
+  {id:"cw-inter", name:"Interpersonal communication", st:["Build relationships effectively, applying respect, intercultural awareness, diplomacy and tact","Listen actively to learn from others you work with","Advocate for others","Apply academic integrity when working with others","Ask effective questions, including to elicit information and perspectives","Engage others with your arguments, thought processes and approach","Give feedback constructively when working with others"], cv:"Built effective working relationships, listening actively and giving constructive feedback."},
+  {id:"cw-team", name:"Teamwork and collaboration", st:["Form effective groups","Identify complementary strengths when working with others","Collaborate effectively in a group, including delegating tasks and giving clear updates","Manage and resolve conflicts constructively when working with others","Prepare appropriately for presentations, collaborations and groupwork"], cv:"Collaborated effectively in a team, sharing tasks and keeping others updated."},
+  {id:"cw-eff", name:"Effective communication", st:["Communicate complex information clearly, relatably, inclusively and accessibly","Communicate professionally, respectfully and with confidence","Consider the cultural context and its impact on yourself and others","Consider the needs of others when communicating, including in selection and structure of content","Select and structure information appropriate for others","Present results and information verbally, visually or in writing","Represent and reference sources accurately and appropriately"], cv:"Communicated complex information clearly and professionally to different audiences."}]},
+ {id:"cc", fam:"Communication", name:"Communicating through content", url:SP+"Communicating-Through-Content.aspx", prof:"presentation", subs:[
+  {id:"cc-create", name:"Content creation", st:["Create effective and engaging written, visual, multimedia content using multiple or diverse methods","Condense, simplify and summarise content meaningfully and according to your audience","Propose diverse aspects and perspectives when creating content","Convey nuance through content","Embed accessibility in the creation of content, respecting individual differences"], cv:"Created clear, engaging content and summarised complex material for my audience."},
+  {id:"cc-style", name:"Content style", st:["Apply appropriate written, visual or multimedia approaches for your content and discipline","Understand and apply the difference between 'showing' and 'telling'","Use appropriate language and tone of voice in the creation of content","Use multimedia platforms to create and disseminate content","Use social media responsibly when sharing or presenting content"], cv:"Used the right style, language and format for my content and discipline."},
+  {id:"cc-comm", name:"Communication style", st:["Adapt your communication style for diverse audiences in academic, social and professional contexts","Communicate effectively through digital media"], cv:"Adapted my communication style for academic, professional and public audiences."}]},
+ {id:"cr", fam:"Creation", name:"Creative output or approach", url:SP+"Creative-Output-or-Approach.aspx", prof:"creative", subs:[
+  {id:"cr-out", name:"Creative output", st:["Create concepts","Create questions","Create a hypothesis","Create narratives or stories","Create meaning","Create new methods","Create new theories and frameworks","Create visual content or artefacts","Create a shared vision","Create stimulating environments for thought and innovation","Generate data through experimentation, observation and interviews","Create change"], cv:"Created original questions, hypotheses or content."},
+  {id:"cr-appr", name:"Creative approach", st:["Investigate","Take inspiration from other sources","Create connections across disciplines or between dissimilar ideas","Innovate and generate ideas","Experiment, imagine and think speculatively","Improvise","Use trial and error","Use a range of forms and techniques to create content","Select ideas for creative exploration","Independently develop and apply creative skills","Co-create, including with others from different backgrounds","Reflect on development of creative work"], cv:"Generated and developed new ideas, drawing on different sources and disciplines."}]},
+ {id:"de", fam:"Creation", name:"Design output or approach", url:SP+"Design-Output-or-Approach.aspx", prof:"innovation", subs:[
+  {id:"de-out", name:"Design output", st:["Design items","Design experiments","Design methods or processes","Design concepts, theories, models or frameworks","Design strategies","Design research approaches and projects"], cv:"Designed a study, method or strategy to meet a defined need."},
+  {id:"de-appr", name:"Design approach", st:["Apply theoretical approaches to design","Apply convergent thinking to evaluate and refine ideas or solutions","Apply divergent thinking to generate multiple ideas or possibilities","Apply design thinking across different disciplines or contexts","Apply learning from risk and failure to improve approach","Design experimentally","Design iteratively","Design practically","Design sustainably","Plan design processes","Understand user needs"], cv:"Designed iteratively, refining ideas around the needs of the people they serve."}]}
+];
+const SUB = {}; const SUBORDER = [];
+AREAS.forEach(a => a.subs.forEach(s => { SUB[s.id] = Object.assign(s, {area:a}); SUBORDER.push(s.id); }));
+
+// What each recommendation means in Skills Language terms: [sub-heading, [statement indexes]]
+const REC = {
+ "cog-concept":[["ct-aware",[0]]],
+ "cog-apply":[["ct-apply",[0, 5]]],
+ "cog-synth":[["an-focus",[3]]],
+ "cog-crit":[["an-eval",[0]]],
+ "cog-reason":[["ai-build",[0, 3]]],
+ "cog-data":[["an-tech",[4, 8]]],
+ "cog-qual":[["an-tech",[1, 5]]],
+ "cog-method":[["mt-aware",[0, 2]]],
+ "cog-detail":[["mt-apply",[3]]],
+ "cog-problem":[["ps-solve",[0, 4]]],
+ "cog-decide":[["ps-dec",[0, 4]]],
+ "cog-pressure":[["mt-apply",[2]]],
+ "cog-reflect":[["mt-interp",[2]]],
+ "cog-ethics":[["ct-eval",[4]]],
+ "cog-ai":[["mt-apply",[4]]],
+ "cog-uncertainty":[["ps-mind",[4]]],
+ "cog-interdisc":[["ps-frame",[5]]],
+ "cog-risk":[["an-focus",[2]]],
+ "col-source":[["col-src",[0, 3]]],
+ "col-lit":[["res-proc",[3]]],
+ "col-scope":[["res-scope",[4, 5]]],
+ "col-collect":[["col-proc",[6, 7]]],
+ "col-dataeval":[["col-eval",[2, 3]]],
+ "col-pm":[["res-mgmt",[0]]],
+ "col-dataprot":[["res-mgmt",[1, 2]]],
+ "col-repro":[["res-proc",[7]]],
+ "col-observe":[["col-src",[8]]],
+ "cw-team":[["cw-team",[2, 3]]],
+ "cw-feedback":[["cw-inter",[6]]],
+ "cw-prof":[["cw-eff",[1, 3]]],
+ "cw-oral":[["cw-eff",[5]]],
+ "cw-listen":[["cw-inter",[1, 4]]],
+ "cw-debate":[["cw-inter",[5]]],
+ "cw-intercultural":[["cw-eff",[2]]],
+ "cw-advocate":[["cw-inter",[2]]],
+ "ct-academic":[["cc-style",[0, 2]]],
+ "ct-lay":[["cw-eff",[0]]],
+ "ct-pres":[["cc-create",[0]]],
+ "ct-dataviz":[["cw-eff",[5]]],
+ "ct-media":[["cc-style",[3]]],
+ "ct-concise":[["cc-create",[1]]],
+ "ct-access":[["cc-create",[4]]],
+ "ct-self":[["cc-comm",[0]]],
+ "cr-hyp":[["cr-out",[1, 2]]],
+ "cr-design":[["de-out",[1, 5]]],
+ "cr-solution":[["de-out",[4]]],
+ "cr-creative":[["cr-appr",[3]]],
+ "cr-tool":[["de-out",[0, 2]]],
+ "cr-visual":[["cr-out",[7]]],
+ "cr-iterate":[["de-appr",[4, 6]]]
+};
+
+const TYPES = [
+ {id:"essayexam",g:"Exams",name:"Essay exam (unseen, timed)",core:["cog-concept","cog-crit","cog-pressure","ct-academic"],opt:["cog-reason","cog-synth"],
+  over:{"ct-academic":"Applying discipline-appropriate written conventions to produce a clear, structured argument under exam conditions."},
+  why:"Building a clear, evidence-based argument quickly is what you do when you write a briefing, answer an interview question or respond to a deadline at work."},
+ {id:"mcqexam",g:"Exams",name:"MCQ or short-answer exam",core:["cog-concept","cog-pressure","cog-detail"],opt:["cog-data","cog-reason"],
+  over:{"cog-detail":"Reading questions carefully and distinguishing between closely related options."},
+  why:"Recalling and applying knowledge accurately under time pressure is part of many graduate roles, from clinical settings to analytics."},
+ {id:"caseexam",g:"Exams",name:"Applied or case-scenario exam",core:["cog-apply","cog-decide","cog-pressure","ct-academic"],opt:["cog-uncertainty","cog-ethics","cog-reason"],
+  over:{"cog-apply":"Applying psychological theory and evidence to unfamiliar scenarios to explain what is happening and why.","ct-academic":"Writing clear, structured answers under exam conditions."},
+  why:"Working out what a new situation needs and recommending a response is central to applied psychology, consultancy and policy roles."},
+ {id:"proposalexam",g:"Exams",name:"Research-proposal exam",core:["cog-concept","cr-design","cr-hyp","cog-pressure"],opt:["cog-interdisc","cog-crit","cog-method"],
+  over:{"cr-design":"Designing a new study that tests a related question, explaining what changes and why."},
+  why:"Turning existing evidence into a workable plan is the core of grant writing, evaluation and project design."},
+ {id:"essay",g:"Written coursework",name:"Essay",core:["cog-crit","cog-reason","col-source","ct-academic"],opt:["cog-concept","cog-synth","col-pm"],
+  why:"Weighing evidence and writing a persuasive, well-sourced case is what employers mean when they ask for strong written communication."},
+ {id:"quantreport",g:"Written coursework",name:"Quantitative research report",core:["cog-synth","cog-reason","cog-data","col-scope","ct-academic"],opt:["col-pm","ct-dataviz","col-dataeval","cog-ethics"],
+  why:"Asking a focused question, analysing data and reporting what it shows are the everyday tasks of research, analytics and evaluation jobs."},
+ {id:"qualreport",g:"Written coursework",name:"Qualitative research report or analysis",core:["cog-qual","col-scope","cog-reflect","ct-academic"],opt:["col-collect","col-dataprot","cog-ethics"],
+  over:{"cog-reflect":"Reflecting on your own position and how it shapes your interpretation of the data (reflexivity)."},
+  why:"Making sense of what people say is the basis of user research, service evaluation, HR and policy consultation."},
+ {id:"protocol",g:"Written coursework",name:"Research proposal, protocol or project plan",core:["col-scope","cr-design","cog-method","cog-ethics"],opt:["cog-risk","col-lit","col-pm","col-dataprot"],
+  why:"Planning a project, justifying your approach and anticipating risks are core skills in research, evaluation and project management roles."},
+ {id:"policy",g:"Written coursework",name:"Applied, policy or stakeholder report",core:["cog-apply","cr-solution","cog-decide","ct-lay"],opt:["cog-risk","cog-ethics","col-source"],
+  over:{"ct-lay":"Writing evidence-based recommendations that a non-academic decision-maker can act on."},
+  why:"Diagnosing a practical problem and making evidence-based recommendations is the day-to-day work of consultants, policy officers and practitioners."},
+ {id:"casestudy",g:"Written coursework",name:"Case study evaluation",core:["cog-apply","cog-decide","cog-ethics","col-source"],opt:["cog-uncertainty","ct-academic","cog-crit"],
+  over:{"cog-decide":"Recommending and justifying an approach for an individual case, weighing the strengths and limits of the options."},
+  why:"Matching an approach to an individual's needs and justifying it is central to clinical, educational and occupational practice."},
+ {id:"measure",g:"Written coursework",name:"Test manual or new measure",core:["cr-tool","cog-method","cog-data","col-dataeval"],opt:["cr-iterate","ct-academic","ct-lay"],
+  why:"Designing and validating a tool that others can rely on is valued in assessment, HR, market research and product teams."},
+ {id:"critique",g:"Written coursework",name:"Observation or critique of practice",core:["col-observe","cog-crit","cw-feedback","cog-ethics"],opt:["cog-apply"],
+  over:{"cw-feedback":"Giving balanced, specific feedback on strengths and weaknesses, with practical suggestions for improvement."},
+  why:"Observing practice and giving useful feedback is part of supervision, quality assurance and team leadership."},
+ {id:"dissemination",g:"Communication outputs",name:"Lay summary or dissemination document",core:["ct-lay","ct-concise","col-source","cog-concept"],opt:["ct-access"],
+  why:"Explaining research clearly to non-specialists is needed in public engagement, health communication, journalism and policy."},
+ {id:"poster",g:"Communication outputs",name:"Poster or infographic",core:["cr-visual","ct-concise","cog-synth","cog-crit"],opt:["ct-access","ct-lay"],
+  over:{"cog-synth":"Interpreting and synthesising a study's rationale, methods and findings into a coherent story."},
+  why:"Summarising complex information visually is used in reports, pitches and public-facing materials across many sectors."},
+ {id:"livepres",g:"Communication outputs",name:"Live presentation",core:["cw-oral","ct-pres","cw-listen"],opt:["col-scope","cw-team"],
+  over:{"cw-listen":"Responding to audience questions clearly and thinking on your feet."},
+  why:"Presenting to colleagues or clients and handling questions is part of almost every graduate role."},
+ {id:"recpres",g:"Communication outputs",name:"Recorded presentation, video or podcast",core:["ct-pres","ct-media","ct-lay"],opt:["cw-team","cog-decide"],
+  why:"Recording clear, well-structured content for a specific audience mirrors briefings, training materials and digital communication at work."},
+ {id:"conference",g:"Communication outputs",name:"Conference presentation",core:["cw-oral","ct-pres","cw-listen","ct-lay"],opt:["col-pm"],
+  over:{"ct-lay":"Pitching your research at the right level for a mixed audience of staff and students."},
+  why:"Presenting your own work at an event and fielding questions builds the confidence employers look for in interviews and meetings."},
+ {id:"datavis",g:"Data and practical",name:"Data visualisation project",core:["ct-dataviz","cog-data","cog-crit","ct-lay"],opt:["cr-iterate","col-repro","cr-creative"],
+  over:{"ct-lay":"Tailoring figures and explanations to what a specific organisation needs to know.","cog-crit":"Critically evaluating why a visualisation works or misleads, using evidence."},
+  why:"Turning data into clear visuals for decision-makers is central to analytics, public health, policy and HR roles."},
+ {id:"dataskills",g:"Data and practical",name:"Data skills, coding or statistics task",core:["cog-detail","cog-method","cog-problem","cog-data","col-repro"],opt:["cr-iterate","ct-dataviz","col-dataeval","cog-ai"],
+  why:"Writing and debugging reproducible analysis code is a skill directly transferable to data, research and evidence-focused careers."},
+ {id:"participation",g:"Data and practical",name:"Participation and engagement",core:["col-pm","cw-team","cw-feedback"],opt:["cog-reflect","cw-listen"],
+  over:{"col-pm":"Managing your time to engage consistently and meet regular deadlines across the course."},
+  why:"Steady engagement, reliability and contributing to a team are among the first things employers ask referees about."},
+ {id:"dissertation",g:"Projects and portfolios",name:"Dissertation or independent project",core:["col-scope","cr-design","col-pm","cog-data","ct-academic","cog-ethics"],opt:["cog-uncertainty","col-lit","col-collect","col-dataprot","cog-qual","cw-prof"],
+  over:{"cw-prof":"Working professionally with your supervisor, acting on feedback and managing the relationship."},
+  why:"Running a project from question to write-up shows independence, planning and delivery, which employers and postgraduate programmes look for."},
+ {id:"reflective",g:"Projects and portfolios",name:"Reflective report",core:["cog-reflect","cog-apply","ct-academic"],opt:["cw-feedback","cog-ethics"],
+  over:{"cog-apply":"Linking your own experience to theory and research evidence."},
+  why:"Reflective practice is expected in teaching, health, social care and psychology professions, and employers value people who learn from experience."},
+ {id:"careers",g:"Projects and portfolios",name:"Professional skills or careers portfolio",core:["ct-self","cog-reflect","col-source","cw-prof"],opt:["col-pm","ct-lay"],
+  over:{"col-source":"Researching career and postgraduate options and evaluating the information you find."},
+  why:"Knowing your strengths and presenting them well is what gets you shortlisted and through interview."},
+ {id:"debate",g:"Projects and portfolios",name:"Debate or discussion portfolio",core:["cw-debate","cog-reason","cog-crit","col-source"],opt:["cw-intercultural","ct-academic","cw-prof"],
+  why:"Making a reasoned case and engaging respectfully with other views is needed in meetings, consultations and advocacy work."},
+ {id:"service",g:"Projects and portfolios",name:"Service learning, placement or community project",core:["cw-prof","cr-solution","cog-reflect","cw-team"],opt:["cw-advocate","cog-ethics","ct-lay","cw-listen"],
+  over:{"cr-solution":"Designing and delivering activities that meet a partner organisation's needs."},
+  why:"Working with a real partner builds the professionalism, adaptability and reflection that employers rate highly."},
+ {id:"groupoutput",g:"Projects and portfolios",name:"Group project with a shared output",core:["cw-team","col-pm","cw-feedback","cog-apply"],opt:["cw-intercultural","cw-prof","cr-solution","cr-visual"],
+  over:{"col-pm":"Coordinating group responsibilities and managing time to produce a cohesive final product."},
+  why:"Delivering a shared piece of work with others is how most work gets done in any organisation."}
+];
+const TY = Object.fromEntries(TYPES.map(t=>[t.id,t]));
+
+const FEATURES = [
+ // Working with others
+ {g:"Working with others",id:"group",label:"Group or pair work",add:["cw-team"],over:{"col-pm":"Coordinating group responsibilities and managing time to produce a cohesive final product."}},
+ {g:"Working with others",id:"peer",label:"Give or receive peer feedback",add:["cw-feedback"]},
+ {g:"Working with others",id:"qa",label:"Answer questions live",add:["cw-listen"],over:{"cw-listen":"Responding to audience questions clearly and thinking on your feet."}},
+ {g:"Working with others",id:"debate",label:"Debate or discuss with peers",add:["cw-debate"]},
+ {g:"Working with others",id:"partner",label:"Work with an external partner",add:["cw-prof","cr-solution"],over:{"cw-prof":"Communicating professionally with an external partner and responding to their needs."}},
+ {g:"Working with others",id:"cultural",label:"Work across cultures or diverse groups",add:["cw-intercultural"]},
+ {g:"Working with others",id:"advocate",label:"Represent the needs of a group or community",add:["cw-advocate"]},
+ {g:"Working with others",id:"interview",label:"Interview or run sessions with people",add:["cw-listen","cw-prof"],over:{"cw-listen":"Listening actively and asking effective questions to draw out people's experiences and perspectives."}},
+ // Audience and format
+ {g:"Audience and format",id:"lay",label:"Write for the public",add:["ct-lay"]},
+ {g:"Audience and format",id:"stakeholder",label:"Write for a professional or stakeholder audience",add:["ct-lay","cog-decide"],over:{"ct-lay":"Presenting evidence and recommendations in a form a non-academic decision-maker can act on."}},
+ {g:"Audience and format",id:"oral",label:"Present or speak to an audience",add:["cw-oral","ct-pres"]},
+ {g:"Audience and format",id:"visual",label:"Make a poster, infographic or slides",add:["cr-visual"]},
+ {g:"Audience and format",id:"media",label:"Make audio, video or a podcast",add:["ct-media"]},
+ {g:"Audience and format",id:"wordlimit",label:"Tight word or time limit",add:["ct-concise"]},
+ {g:"Audience and format",id:"access",label:"Accessibility is assessed",add:["ct-access"]},
+ {g:"Audience and format",id:"career",label:"CV, application or personal statement",add:["ct-self"]},
+ // Research and data
+ {g:"Research and data",id:"topic",label:"Choose their own question",add:["col-scope","cr-hyp"]},
+ {g:"Research and data",id:"lit",label:"Search and review the literature",add:["col-lit","col-source"]},
+ {g:"Research and data",id:"collect",label:"Collect their own data",add:["col-collect","col-dataprot"]},
+ {g:"Research and data",id:"secondary",label:"Work with a provided dataset",add:["col-dataeval"],over:{"col-dataeval":"Evaluating, cleaning and preparing an existing dataset before analysis."}},
+ {g:"Research and data",id:"data",label:"Run statistical analysis",add:["cog-data"]},
+ {g:"Research and data",id:"qual",label:"Analyse qualitative data",add:["cog-qual"]},
+ {g:"Research and data",id:"code",label:"Write code in R or similar",add:["cog-problem","col-repro","cog-detail"]},
+ {g:"Research and data",id:"dataviz",label:"Create graphs or tables",add:["ct-dataviz"]},
+ {g:"Research and data",id:"ethics",label:"Address ethics",add:["cog-ethics"]},
+ // Thinking and applying
+ {g:"Thinking and applying",id:"brief",label:"Respond to a real-world brief",add:["cog-apply"]},
+ {g:"Thinking and applying",id:"case",label:"Work through a case or scenario",add:["cog-apply"],over:{"cog-apply":"Applying psychological theory and evidence to a specific case or scenario."}},
+ {g:"Thinking and applying",id:"recommend",label:"Make recommendations or decisions",add:["cog-decide"]},
+ {g:"Thinking and applying",id:"critique",label:"Critique evidence or others' work",add:["cog-crit"]},
+ {g:"Thinking and applying",id:"observe",label:"Observe and evaluate practice",add:["col-observe"]},
+ {g:"Thinking and applying",id:"designstudy",label:"Design a study",add:["cr-design"]},
+ {g:"Thinking and applying",id:"designsol",label:"Design an intervention or solution",add:["cr-solution"]},
+ {g:"Thinking and applying",id:"designtool",label:"Design a measure or tool",add:["cr-tool"]},
+ {g:"Thinking and applying",id:"openended",label:"Tackle an open-ended problem",add:["cog-uncertainty"]},
+ {g:"Thinking and applying",id:"interdisc",label:"Draw on other disciplines",add:["cog-interdisc"]},
+ {g:"Thinking and applying",id:"risk",label:"Assess risks or potential harms",add:["cog-risk"]},
+ {g:"Thinking and applying",id:"iterate",label:"Test, revise and improve an idea",add:["cr-iterate"]},
+ {g:"Thinking and applying",id:"creative",label:"Original or non-traditional output",add:["cr-creative"]},
+ // How the task runs
+ {g:"How the task runs",id:"timed",label:"Timed or invigilated",add:["cog-pressure"]},
+ {g:"How the task runs",id:"instructions",label:"Strict format or instructions",add:["cog-detail"]},
+ {g:"How the task runs",id:"drafts",label:"Drafts or stages with feedback",add:["cw-feedback","col-pm"],over:{"cw-feedback":"Acting on feedback between stages to improve your work."}},
+ {g:"How the task runs",id:"longproject",label:"Extended independent project",add:["col-pm"]},
+ {g:"How the task runs",id:"reflect",label:"Reflect on their own learning",add:["cog-reflect"]},
+ {g:"How the task runs",id:"ai",label:"Use AI tools as part of the task",add:["cog-ai"]}
+];
+const FT = Object.fromEntries(FEATURES.map(f=>[f.id,f]));
+
+// ---------- state ----------
+const S = {level:"4", type:"quantreport", feats:new Set(["group","topic"]), extra:new Set(), off:new Set(), picks:{}, ctx:{}, cvEdits:{}, more:new Set()};
+const $ = id=>document.getElementById(id);
+const esc = s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const LEVELNAME={"1":"Level 1","2":"Level 2","3":"Level 3","4":"Level 4","pgt":"PGT"};
+
+// recommended sub-headings -> {idx:Set, why:string}
+function recommended(){
+  const t=TY[S.type]; const out=new Map();
+  const add=(key,why)=>{(REC[key]||[]).forEach(([sid,idx])=>{ if(!out.has(sid)) out.set(sid,{idx:new Set(),whys:[]}); const o=out.get(sid); idx.forEach(i=>o.idx.add(i)); if(!o.whys.includes(why)) o.whys.push(why); });};
+  t.core.forEach(k=>add(k,"Usual for "+t.name));
+  S.feats.forEach(f=>FT[f].add.forEach(k=>add(k,"You ticked: "+FT[f].label)));
+  return out;
+}
+function shown(){
+  const rec=recommended(); const ids=[...rec.keys()]; S.extra.forEach(id=>{if(!ids.includes(id))ids.push(id)});
+  return ids.sort((a,b)=>SUBORDER.indexOf(a)-SUBORDER.indexOf(b));
+}
+function picksFor(sid){
+  if(S.picks[sid]) return new Set(S.picks[sid]);
+  const r=recommended().get(sid); return r?new Set([...r.idx].slice(0,2)):new Set([0]);
+}
+function reasonsFor(sid){
+  const r=recommended().get(sid); if(r) return r.whys.map(w=>({t:w,you:false}));
+  const t=TY[S.type]; const opt=(t.opt||[]).some(k=>(REC[k]||[]).some(([x])=>x===sid));
+  return [{t:opt?"Optional for "+t.name+", added by you":"Added by you",you:true}];
+}
+function active(){return shown().filter(id=>!S.off.has(id) && picksFor(id).size>0)}
+function prefix(sid){const s=SUB[sid]; return `${s.area.fam} - ${s.area.name} - ${s.name}`}
+function lineFor(sid){
+  const s=SUB[sid]; const st=[...picksFor(sid)].sort((a,b)=>a-b).map(i=>s.st[i]);
+  const ctx=(S.ctx[sid]||"").trim().replace(/^in this assessment\s*[:,-]?\s*/i,"").replace(/[\s,;:]+$/,"");
+  return (st.length?`${prefix(sid)}: ${st.join("; ")}.`:`${prefix(sid)}.`)+(ctx?` In this assessment: ${ctx}${/[.!?]$/.test(ctx)?"":"."}`:"");
+}
+function stmtsFor(sid){const s=SUB[sid];return [...picksFor(sid)].sort((a,b)=>a-b).map(i=>s.st[i])}
+function ctxFor(sid){const c=(S.ctx[sid]||"").trim().replace(/^in this assessment\s*[:,-]?\s*/i,"").replace(/^how\s*:\s*/i,"").replace(/[\s,;:]+$/,"");return c?c+(/[.!?]$/.test(c)?"":"."):""}
+function groups(ids){const m=new Map();ids.forEach(id=>{const a=SUB[id].area.name;if(!m.has(a))m.set(a,[]);m.get(a).push(id)});return [...m]}
+const MKEY="In this assessment you will develop the skills below, from the University's Transferable Skills Language. Each skill is listed under its skill area, followed by what you will do to show it.";
+function markersHtml(ids){return `<p class="mkey">${esc(MKEY)}</p>`+groups(ids).map(([area,list])=>`<div class="og"><p class="og-area"><em>Skill area: ${esc(area)}</em></p>`+list.map(id=>{const c=ctxFor(id);return `<p class="og-skill"><strong>${esc(SUB[id].name)}</strong></p><ul>${stmtsFor(id).map(x=>`<li>${esc(x)}</li>`).join("")}</ul>${c?`<p class="og-how"><em>How:</em> ${esc(c)}</p>`:""}`}).join("")+`</div>`).join("")}
+function markersPlain(ids){return MKEY+"\n"+groups(ids).map(([area,list])=>"\nSkill area: "+area+"\n"+list.map(id=>{const c=ctxFor(id);return "  "+SUB[id].name+"\n"+stmtsFor(id).map(x=>"    - "+x).join("\n")+(c?"\n  How: "+c:"")}).join("\n")).join("\n")}
+function cvFor(sid){const v=(S.cvEdits[sid]!=null?S.cvEdits[sid]:SUB[sid].cv).trim().replace(/[\s,;:]+$/,"");return v&&!/[.!?]$/.test(v)?v+".":v}
+
+// ---------- render ----------
+function renderSelectors(){
+  const at=$("atype"); const groups=[...new Set(TYPES.map(t=>t.g))];
+  at.innerHTML=groups.map(g=>`<optgroup label="${g}">`+TYPES.filter(t=>t.g===g).map(t=>`<option value="${t.id}">${esc(t.name)}</option>`).join("")+"</optgroup>").join("");
+  $("addAny").innerHTML='<option value="">Add any sub-heading from the Skills Language…</option>'+AREAS.filter(a=>a.subs.length).map(a=>`<optgroup label="${a.fam} · ${esc(a.name)}">`+a.subs.map(s=>`<option value="${s.id}">${esc(s.name)}</option>`).join("")+"</optgroup>").join("");
+}
+function stmtRow(sid,i,on){
+  return `<label class="stmt"><input type="checkbox" id="st-${sid}-${i}" data-sid="${sid}" data-i="${i}" ${on?"checked":""}><span>${esc(SUB[sid].st[i])}</span></label>`;
+}
+function render(){
+  $("atype").value=S.type;
+  $("typeHint").textContent="This pre-selects the usual sub-headings for "+TY[S.type].name.toLowerCase()+". You can change all of them in step 3.";
+  $("features").innerHTML=[...new Set(FEATURES.map(f=>f.g))].map(g=>`<div class="fgroup"><h3>${esc(g)}</h3><div class="chips">`+FEATURES.filter(f=>f.g===g).map(f=>`<button type="button" class="chip" id="ft-${f.id}" aria-pressed="${S.feats.has(f.id)}" data-f="${f.id}"><span class="tick" aria-hidden="true">${S.feats.has(f.id)?"✓":""}</span>${esc(f.label)}</button>`).join("")+`</div></div>`).join("");
+  $("featCount").textContent=S.feats.size?S.feats.size+" ticked.":"";
+  const ids=shown();
+  $("markers").innerHTML = ids.length? ids.map(sid=>{const s=SUB[sid]; const on=!S.off.has(sid); const p=picksFor(sid);
+    const picked=s.st.map((_,i)=>i).filter(i=>p.has(i)), rest=s.st.map((_,i)=>i).filter(i=>!p.has(i));
+    return `<div class="mk ${on?"":"off"}">
+      <div class="mk-top"><input type="checkbox" id="cb-${sid}" data-id="${sid}" ${on?"checked":""}>
+        <label class="mk-title" for="cb-${sid}"><span class="fam ${s.area.fam}">${esc(s.area.fam)}</span><span class="areaname">${esc(s.area.name)}</span><strong>${esc(s.name)}</strong></label></div>
+      <p class="why"><span class="why-l">Why suggested</span>${reasonsFor(sid).map(w=>`<span class="why-i${w.you?" you":""}">${esc(w.t)}</span>`).join("")}</p>
+      <div class="mk-body">
+        <div class="stmts">${picked.length?picked.map(i=>stmtRow(sid,i,true)).join(""):'<p class="hint warn-text">Tick at least one statement, or this sub-heading is left out.</p>'}</div>
+        ${rest.length?`<details class="stm more" data-more="${sid}" ${S.more.has(sid)?"open":""}><summary>More statements under ${esc(s.name)} (${rest.length})</summary><div class="stmts">${rest.map(i=>stmtRow(sid,i,false)).join("")}</div></details>`:""}
+        ${picked.length>3?'<p class="hint warn-text">That is a lot of statements for students to take in. Two is usually enough.</p>':""}
+        <label class="cvlab" for="cx-${sid}">How students show it in this assessment (optional)</label>
+        <textarea id="cx-${sid}" data-ctx="${sid}" rows="1" placeholder="e.g. by justifying the choice of statistical test in the Method section">${esc(S.ctx[sid]||"")}</textarea>
+        <label class="cvlab" for="cv-${sid}">Example CV line for students</label>
+        <textarea id="cv-${sid}" data-cv="${sid}" rows="2">${esc(cvFor(sid))}</textarea>
+        ${ILO.list.filter(x=>x.trim()).length?`<label class="cvlab" for="il-${sid}">Supports which ILO?</label><select id="il-${sid}" data-ilo="${sid}"><option value="">Not linked</option>${ILO.list.map((t,i)=>t.trim()?`<option value="${i}" ${String(S.ilolink[sid])===String(i)?"selected":""}>ILO ${i+1}: ${esc(t.length>70?t.slice(0,68)+"…":t)}</option>`:"").join("")}</select>`:""}
+        <p class="hint"><a href="${s.area.url}" target="_blank" rel="noopener">Open the ${esc(s.area.name)} page</a></p>
+      </div></div>`}).join("") : '<p class="empty">No markers yet. Pick an assessment type above.</p>';
+  const t=TY[S.type]; const optSubs=[]; (t.opt||[]).forEach(k=>(REC[k]||[]).forEach(([sid])=>{if(!ids.includes(sid)&&!optSubs.includes(sid))optSubs.push(sid)}));
+  $("alsoWrap").hidden=!optSubs.length;
+  $("also").innerHTML=optSubs.map(sid=>`<button type="button" class="sugg" data-add="${sid}"><span class="fam ${SUB[sid].area.fam}">${SUB[sid].area.fam.slice(0,3)}</span>${esc(SUB[sid].area.name)}: ${esc(SUB[sid].name)}</button>`).join("");
+  const n=active().length; const c=$("count"); const hasIlo=ILO.list.some(x=>x.trim()); const unl=hasIlo?active().filter(id=>S.ilolink[id]==null||!ILO.list[+S.ilolink[id]]).length:0; c.textContent=n+" selected"+(unl?" · "+unl+" not linked to an ILO":""); c.className="count"+((n<3||n>6)?" warn":"");
+  c.title=(n<3||n>6)?"Aim for 3 to 6 markers":"";
+  renderPreview(); save(); if(typeof renderIlo==="function"&&$("iloList"))renderIlo();
+}
+function listJoin(a){return a.length<2?a.join(""):a.slice(0,-1).join(", ")+" and "+a[a.length-1]}
+function whySentence(){
+  const ids=active(); if(!ids.length) return {text:"",html:""};
+  const names=[...new Set(ids.map(id=>SUB[id].name))].map(n=>"“"+n+"”");
+  const lead=names.length===1?`This assessment develops one skill from the University's Transferable Skills Language: ${names[0]}.`:`This assessment develops ${["","one","two","three","four","five","six","seven","eight","nine"][names.length]||names.length} skills from the University's Transferable Skills Language: ${listJoin(names)}.`;
+  let text=`${lead} ${TY[S.type].why}`; let html=esc(text);
+  if($("incLinks").checked){
+    const profs=[...new Set(ids.map(profFor).filter(Boolean))].slice(0,3).map(p=>PROFILES[p]);
+    if(profs.length){
+      text+=` See what these skills look like in real jobs in the University's Skills Profiles: ${listJoin(profs.map(p=>p[0]+" ("+p[1]+")"))}.`;
+      html+=` See what these skills look like in real jobs in the University's Skills Profiles: ${listJoin(profs.map(p=>`<a href="${p[1]}" target="_blank" rel="noopener">${esc(p[0])}</a>`))}.`;
+    }
+  }
+  return {text,html};
+}
+function renderPreview(){
+  const ids=active();
+  $("crumb").textContent=TY[S.type].name+" · Learning Objectives and Employability Markers";
+  $("outList").innerHTML=ids.length?markersHtml(ids):'<p class="hint">Tick at least one marker.</p>';
+  const w=whySentence(); $("whyWrap").hidden=!$("incWhy").checked||!w.text; $("whyText").innerHTML=w.html;
+  $("cvWrap").hidden=!$("incCV").checked||!ids.length; $("cvList").innerHTML=ids.map(id=>cvFor(id)).filter(Boolean).map(c=>`<li>${esc(c)}</li>`).join("");
+}
+function outputs(){
+  const ids=active();
+  const w=whySentence(); const inc=$("incWhy").checked&&w.text;
+  const cv=$("incCV").checked?ids.map(cvFor).filter(Boolean):[]; const cvIntro="Examples of how you could describe these skills in a CV, application or interview. Adapt them to what you actually did.";
+  const plain="Employability Markers\n"+markersPlain(ids)+(inc?"\n\nWhy Are We Assessing Like This\n"+w.text:"")+(cv.length?"\n\nDescribing these skills\n"+cvIntro+"\n"+cv.map(l=>"- "+l).join("\n"):"");
+  const html="<h4>Employability Markers</h4>"+markersHtml(ids)+(inc?"<hr><h4>Why Are We Assessing Like This</h4><p>"+w.html+"</p>":"")+(cv.length?"<hr><h4>Describing these skills</h4><p>"+cvIntro+"</p><ul>"+cv.map(l=>"<li>"+esc(l)+"</li>").join("")+"</ul>":"");
+  return {plain,html};
+}
+
+// ---------- events ----------
+$("atype").addEventListener("change",ev=>{S.type=ev.target.value;S.off=new Set();S.picks={};render()});
+$("features").addEventListener("click",ev=>{const b=ev.target.closest("[data-f]");if(!b)return;const f=b.dataset.f;S.feats.has(f)?S.feats.delete(f):S.feats.add(f);render();const nb=$("ft-"+f);nb&&nb.focus()});
+$("markers").addEventListener("change",ev=>{const t=ev.target; if(t.type!=="checkbox")return;
+  if(t.dataset.sid){const sid=t.dataset.sid,i=+t.dataset.i; const p=picksFor(sid); t.checked?p.add(i):p.delete(i); S.picks[sid]=[...p]; render(); const el=$(`st-${sid}-${i}`); el&&el.focus(); return;}
+  const id=t.dataset.id; t.checked?S.off.delete(id):S.off.add(id); render(); const cb=$("cb-"+id); cb&&cb.focus()});
+$("markers").addEventListener("toggle",ev=>{const d=ev.target; if(d.dataset&&d.dataset.more){d.open?S.more.add(d.dataset.more):S.more.delete(d.dataset.more)}},true);
+$("markers").addEventListener("input",ev=>{const t=ev.target;if(t.tagName!=="TEXTAREA")return;if(t.dataset.cv)S.cvEdits[t.dataset.cv]=t.value;else if(t.dataset.ctx)S.ctx[t.dataset.ctx]=t.value;renderPreview();save()});
+$("also").addEventListener("click",ev=>{const b=ev.target.closest("[data-add]");if(!b)return;S.extra.add(b.dataset.add);S.off.delete(b.dataset.add);render()});
+$("addBtn").addEventListener("click",()=>{const id=$("addAny").value;if(!id)return;S.extra.add(id);S.off.delete(id);$("addAny").value="";render()});
+["incWhy","incLinks","incCV"].forEach(id=>$(id).addEventListener("change",renderPreview));
+function flash(msg){$("status").textContent=msg;clearTimeout(flash.t);flash.t=setTimeout(()=>$("status").textContent="",2500)}
+function fallback(text){const f=$("fallback");f.hidden=false;f.value=text;f.focus();f.select();flash("Select all and copy the text below")}
+$("copyPlain").addEventListener("click",()=>{const o=outputs();
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(o.plain).then(()=>{$("fallback").hidden=true;flash("Copied as plain text")},()=>fallback(o.plain))}else fallback(o.plain)});
+$("copyRich").addEventListener("click",()=>{const o=outputs();
+  try{ if(window.ClipboardItem&&navigator.clipboard.write){
+      navigator.clipboard.write([new ClipboardItem({"text/html":new Blob([o.html],{type:"text/html"}),"text/plain":new Blob([o.plain],{type:"text/plain"})})])
+      .then(()=>{$("fallback").hidden=true;flash("Copied with formatting. Paste into the Moodle editor")},()=>$("copyPlain").click()); return; } }catch(e){}
+  $("copyPlain").click()});
+
+// tabs
+const VIEWS=["ilo","build","rules","browse","guide"];
+function show(v){VIEWS.forEach(x=>{$("view-"+x).hidden=x!==v;$("tab-"+x).setAttribute("aria-selected",x===v)});try{localStorage.setItem("smb-view-ilo",v)}catch(e){}}
+document.addEventListener("click",ev=>{const b=ev.target.closest("[data-view]");if(b){show(b.dataset.view);if(!b.closest(".tabs"))window.scrollTo({top:0})}});
+function recItems(keys,opt){const m=new Map();keys.forEach(k=>(REC[k]||[]).forEach(([sid,idx])=>{if(!m.has(sid))m.set(sid,new Set());idx.forEach(i=>m.get(sid).add(i))}));
+  return [...m].map(([sid,set])=>{const s=SUB[sid];return `<span class="ri${opt?" opt":""}"><b>${esc(s.name)}</b> <span class="areaname">(${esc(s.area.name)})</span><br>${[...set].sort((a,b)=>a-b).map(i=>`<q>${esc(s.st[i])}</q>`).join("; ")}</span>`}).join("")}
+function renderRules(){
+  const groups=[...new Set(TYPES.map(t=>t.g))];
+  $("rulesTypes").innerHTML='<thead><tr><th>Assessment type</th><th>Pre-selected</th><th>Also worth considering</th></tr></thead><tbody>'+groups.map(g=>`<tr class="grp"><td colspan="3">${esc(g)}</td></tr>`+TYPES.filter(t=>t.g===g).map(t=>`<tr><td class="nm">${esc(t.name)}</td><td>${recItems(t.core,false)}</td><td>${recItems(t.opt||[],true)||'<span class="hint">None</span>'}</td></tr>`).join("")).join("")+'</tbody>';
+  $("rulesTypesN").textContent=TYPES.length+" types";
+  const fg=[...new Set(FEATURES.map(f=>f.g))];
+  $("rulesFeats").innerHTML='<thead><tr><th>If you tick</th><th>It adds</th></tr></thead><tbody>'+fg.map(g=>`<tr class="grp"><td colspan="2">${esc(g)}</td></tr>`+FEATURES.filter(f=>f.g===g).map(f=>`<tr><td class="nm">${esc(f.label)}</td><td>${recItems(f.add,false)}</td></tr>`).join("")).join("")+'</tbody>';
+  $("rulesFeatsN").textContent=FEATURES.length+" options";
+}
+
+// browse
+function renderBrowse(){
+  const q=$("q").value.trim().toLowerCase(); let n=0;
+  $("browse").innerHTML=AREAS.map(a=>{
+    const subs=a.subs.filter(s=>!q||(a.name+" "+s.name+" "+s.st.join(" ")).toLowerCase().includes(q));
+    if(a.missing&&(!q||a.name.toLowerCase().includes(q))) return `<div class="area"><div class="area-h"><span class="fam ${a.fam}">${a.fam}</span><h2>${esc(a.name)}</h2><a href="${a.url}" target="_blank" rel="noopener">Skills Language page</a></div><p class="hint">This area's sub-headings and statements weren't in the framework text used to build this tool, so it can't be added yet.</p></div>`;
+    n+=subs.length; if(!subs.length) return "";
+    return `<div class="area"><div class="area-h"><span class="fam ${a.fam}">${a.fam}</span><h2>${esc(a.name)}</h2><a href="${a.url}" target="_blank" rel="noopener">Skills Language page</a></div>
+    ${subs.map(s=>`<div class="bm"><div><strong>${esc(s.name)}</strong><div class="d">${s.st.length} statements</div></div><button class="btn small ghost" type="button" data-badd="${s.id}">Add to builder</button><ul>${s.st.map(t=>`<li>${esc(t)}</li>`).join("")}</ul></div>`).join("")}</div>`}).join("");
+  $("qCount").textContent=n+" of "+SUBORDER.length+" sub-headings";
+}
+$("q").addEventListener("input",renderBrowse);
+$("browse").addEventListener("click",ev=>{const b=ev.target.closest("[data-badd]");if(!b)return;S.extra.add(b.dataset.badd);S.off.delete(b.dataset.badd);render();b.textContent="Added";b.disabled=true});
+
+// persistence (per viewer draft)
+function save(){try{localStorage.setItem("smb-state-v5",JSON.stringify({level:S.level,type:S.type,feats:[...S.feats],extra:[...S.extra],off:[...S.off],picks:S.picks,ctx:S.ctx,cvEdits:S.cvEdits}))}catch(e){}}
+function restore(){try{const d=JSON.parse(localStorage.getItem("smb-state-v5")||"null");if(d&&TY[d.type]){S.type=d.type;if(LEVELNAME[d.level])S.level=d.level;S.feats=new Set((d.feats||[]).filter(f=>FT[f]));S.extra=new Set((d.extra||[]).filter(s=>SUB[s]));S.off=new Set(d.off||[]);S.picks=d.picks||{};S.ctx=d.ctx||{};S.cvEdits=d.cvEdits||{}}}catch(e){}}
+
+// ---------- ILO pilot ----------
+const ILO={list:["Demonstrate an understanding of key theories of memory","Critically evaluate the research methods used in social psychology and recommend improvements","Design a study to answer a given or self-formulated research question, justifying design choices with theory and evidence"],example:true};
+S.ilolink={};
+const TIERS=[
+ {n:"Remember and understand",lv:"Often used at Levels 1 and 2",v:["describe","identify","outline","explain","summarise","recognise","define","list","state","report"]},
+ {n:"Apply",lv:"Used at all Levels",v:["apply","use","conduct","carry out","calculate","demonstrate","implement","perform","illustrate","solve"]},
+ {n:"Analyse",lv:"Common from Level 2 upwards",v:["analyse","compare","contrast","examine","interpret","distinguish","differentiate","investigate","categorise","relate"]},
+ {n:"Evaluate",lv:"Typical at Honours (Levels 3 and 4)",v:["critically evaluate","critically appraise","critically analyse","evaluate","critique","appraise","assess","justify","judge","argue","defend","recommend","reflect"]},
+ {n:"Create",lv:"Typical at Honours (Levels 3 and 4)",v:["design","create","develop","formulate","propose","construct","produce","plan","devise","synthesise","generate","communicate","present","write"]}];
+const VAGUE=["understand","know","appreciate","be aware of","be familiar with","learn","demonstrate an understanding","demonstrate knowledge","show an understanding","gain an understanding","have an awareness"];
+const VAGUE_RE=/^(understand|know|appreciate|learn|be (aware|familiar)|become (aware|familiar))\b|\b(demonstrate|show|gain|develop|have)\s+(a|an)?\s*(broad|good|sound|clear|critical|thorough|deep|detailed)?\s*(understanding|knowledge|awareness|appreciation)\b/i;
+const STOP=new Set("about after their there these those which while where with within without from into using such that this than then they them your will able students student psychology psychological course including other between through across based different range relevant appropriate given self".split(" "));
+const stem=w=>w.length>=5?w.slice(0,5):w;
+const toks=t=>[...new Set((t.toLowerCase().match(/[a-z]+/g)||[]).filter(w=>w.length>=4&&!STOP.has(w)).map(stem))];
+const SUBTOK={}; SUBORDER.forEach(id=>{const s=SUB[id];SUBTOK[id]=new Set(toks(s.name+" "+s.st.join(" ")))});
+const DF={}; SUBORDER.forEach(id=>SUBTOK[id].forEach(x=>DF[x]=(DF[x]||0)+1));
+function verbsIn(t){const low=" "+t.toLowerCase().replace(/[^a-z\s]/g," ")+" ";const found=[];TIERS.forEach((tr,ti)=>tr.v.forEach(v=>{const i=low.indexOf(" "+v+" ");if(i>=0)found.push({v,ti,i})}));
+  found.sort((a,b)=>a.i-b.i||b.v.length-a.v.length);const out=[];found.forEach(f=>{if(!out.some(o=>o.i<=f.i&&f.i<o.i+o.v.length+1))out.push(f)});return out}
+function checkIlo(t){
+  t=(t||"").trim(); if(!t) return [];
+  const res=[]; const vs=verbsIn(t);
+  if(VAGUE_RE.test(t)) res.push({k:"warn",h:"Hard to observe",b:"Students' understanding can't be seen directly. Try a verb that shows it, such as explain, apply, compare or evaluate."});
+  const vagueStart=/^\s*(demonstrate|show|gain|develop|have|understand|know|appreciate|learn|be|become)\b/i.test(t)&&VAGUE_RE.test(t);
+  if(vs.length&&!(vagueStart&&vs[0].i<=1)){const f=vs[0];res.push({k:"ok",h:"Verb level: "+TIERS[f.ti].n,b:"“"+f.v+"”. "+TIERS[f.ti].lv+"."})}
+  else if(!VAGUE_RE.test(t)) res.push({k:"warn",h:"No recognised verb",b:"Start with a verb students can show, such as explain, apply, analyse, evaluate or design."});
+  const words=t.split(/\s+/).length; const distinct=new Set(vs.map(v=>v.v)).size;
+  if(words>45||distinct>=3) res.push({k:"warn",h:"May cover too much",b:(words>45?words+" words":distinct+" different verbs")+". Consider splitting it into two ILOs."});
+  const it=toks(t); const scores=SUBORDER.map(id=>{const m=it.filter(x=>SUBTOK[id].has(x));const nm=SUB[id].name.toLowerCase();const sc=m.reduce((s,x)=>s+1/DF[x]+(nm.includes(x)?0.5:0),0);return {id,m,sc}}).filter(x=>x.m.length>=2).sort((a,b)=>b.sc-a.sc).slice(0,3);
+  if(scores.length){const mw=(id,m)=>{const words=(t.toLowerCase().match(/[a-z]+/g)||[]);return [...new Set(words.filter(w=>m.includes(stem(w))))].join(", ")};
+    res.push({k:"info",h:"Skills Language it may touch",b:scores.map(x=>`${SUB[x.id].name} (${SUB[x.id].area.name}), matched: ${mw(x.id,x.m)}`).join("<br>"),html:true})}
+  else res.push({k:"info",h:"Skills Language it may touch",b:"No clear match. If the ILO involves a skill, consider borrowing a statement from the framework (see Draft a new ILO)."});
+  return res;
+}
+function checkHtml(t){return checkIlo(t).map(r=>`<div class="ck ${r.k}"><strong>${esc(r.h)}</strong><span>${r.html?r.b:esc(r.b)}</span></div>`).join("")}
+function iloSave(){try{localStorage.setItem("smb-ilo-v1",JSON.stringify({list:ILO.list,example:ILO.example,link:S.ilolink}))}catch(e){}}
+function iloRestore(){try{const d=JSON.parse(localStorage.getItem("smb-ilo-v1")||"null");if(d&&Array.isArray(d.list)){ILO.list=d.list;ILO.example=!!d.example;S.ilolink=d.link||{}}}catch(e){}}
+function linkedTo(i){return active().filter(id=>String(S.ilolink[id])===String(i)).map(id=>SUB[id].name)}
+function renderIlo(){
+  $("iloNote").textContent=ILO.example?"Showing examples":ILO.list.length+" ILO"+(ILO.list.length===1?"":"s");
+  $("iloList").innerHTML=ILO.list.length?ILO.list.map((t,i)=>{const l=linkedTo(i);return `<div class="ilo"><label class="fl" for="ilo-${i}">ILO ${i+1}</label>
+    <textarea id="ilo-${i}" data-iloi="${i}" rows="2">${esc(t)}</textarea>
+    <div class="ilo-check" id="ick-${i}">${checkHtml(t)}</div>
+    <p class="hint">${l.length?"Linked markers for "+esc(TY[S.type].name.toLowerCase())+": "+esc(l.join(", ")):"No markers linked yet for "+esc(TY[S.type].name.toLowerCase())+"."} <button type="button" class="linkbtn" data-iloremove="${i}">Remove</button></p></div>`}).join(""):'<p class="empty">No ILOs yet. Add one, or draft one below.</p>';
+}
+function renderDraftSelectors(){
+  $("dVerb").innerHTML=TIERS.map(t=>`<optgroup label="${esc(t.n)} (${esc(t.lv)})">${t.v.map(v=>`<option value="${esc(v)}">${esc(v[0].toUpperCase()+v.slice(1))}</option>`).join("")}</optgroup>`).join("");
+  $("dVerb").value="apply";
+  $("dSub").innerHTML='<option value="">None</option>'+AREAS.map(a=>`<optgroup label="${esc(a.name)}">${a.subs.map(s=>`<option value="${s.id}">${esc(s.name)}</option>`).join("")}</optgroup>`).join("");
+}
+let draftTouched=false;
+function draftBase(){const v=$("dVerb").value, c=$("dContent").value.trim();return (v[0].toUpperCase()+v.slice(1))+(c?" "+c:"")}
+function renderDraft(){
+  const sid=$("dSub").value;
+  $("dStmts").innerHTML=sid?'<span class="hint">Click a statement to add its wording:</span>'+SUB[sid].st.map((x,i)=>`<button type="button" class="sugg" data-dst="${i}">${esc(x)}</button>`).join(""):"";
+  if(!draftTouched) $("dDraft").value=draftBase();
+  $("dCheck").innerHTML=checkHtml($("dDraft").value);
+}
+function iloWire(){
+  $("iloList").addEventListener("input",ev=>{const t=ev.target;if(t.dataset.iloi==null)return;const i=+t.dataset.iloi;ILO.list[i]=t.value;ILO.example=false;$("ick-"+i).innerHTML=checkHtml(t.value);$("iloNote").textContent=ILO.list.length+" ILOs";iloSave()});
+  $("iloList").addEventListener("click",ev=>{const b=ev.target.closest("[data-iloremove]");if(!b)return;const i=+b.dataset.iloremove;ILO.list.splice(i,1);ILO.example=false;
+    Object.keys(S.ilolink).forEach(k=>{const v=+S.ilolink[k];if(v===i)delete S.ilolink[k];else if(v>i)S.ilolink[k]=v-1});iloSave();renderIlo();render()});
+  $("iloAdd").addEventListener("click",()=>{if(ILO.example){ILO.list=[];ILO.example=false}ILO.list.push("");iloSave();renderIlo();render();const el=$("ilo-"+(ILO.list.length-1));el&&el.focus()});
+  $("iloClear").addEventListener("click",()=>{ILO.list=[];ILO.example=false;S.ilolink={};iloSave();renderIlo();render()});
+  ["dVerb","dContent","dSub"].forEach(id=>$(id).addEventListener(id==="dContent"?"input":"change",renderDraft));
+  $("dDraft").addEventListener("input",()=>{draftTouched=true;$("dCheck").innerHTML=checkHtml($("dDraft").value)});
+  $("dStmts").addEventListener("click",ev=>{const b=ev.target.closest("[data-dst]");if(!b)return;const st=SUB[$("dSub").value].st[+b.dataset.dst];
+    const cur=$("dDraft").value.trim().replace(/[.\s]+$/,"");$("dDraft").value=cur+(cur?", and ":"")+st[0].toLowerCase()+st.slice(1);draftTouched=true;$("dCheck").innerHTML=checkHtml($("dDraft").value)});
+  $("dAdd").addEventListener("click",()=>{const v=$("dDraft").value.trim();if(!v)return;if(ILO.example){ILO.list=[];ILO.example=false}ILO.list.push(v.replace(/\.$/,""));iloSave();draftTouched=false;$("dContent").value="";renderDraft();renderIlo();render();flashIlo()});
+  $("markers").addEventListener("change",ev=>{const t=ev.target;if(t.dataset.ilo==null)return;const sid=t.dataset.ilo;if(t.value==="")delete S.ilolink[sid];else S.ilolink[sid]=t.value;iloSave();render();const el=$("il-"+sid);el&&el.focus()});
+  $("vagueList").textContent=VAGUE.map(v=>"“"+v+"”").join(", ");
+  $("tierList").innerHTML=TIERS.map(t=>`<li><strong>${esc(t.n)}</strong> (${esc(t.lv)}): ${esc(t.v.join(", "))}</li>`).join("");
+}
+function flashIlo(){const n=$("iloNote");n.textContent="Added as ILO "+ILO.list.length;}
+
+iloRestore(); renderSelectors(); restore(); renderDraftSelectors(); iloWire(); render(); renderBrowse(); renderRules(); renderIlo(); renderDraft();
+try{const v=localStorage.getItem("smb-view-ilo");if(VIEWS.includes(v))show(v)}catch(e){}
+
+</script>
+
+</body>
+</html>
