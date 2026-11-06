@@ -891,6 +891,7 @@ const TIERS=[
  {n:"Analyse",lv:"Common from Level 2 upwards",v:["analyse","compare","contrast","examine","interpret","distinguish","differentiate","investigate","categorise","relate"]},
  {n:"Evaluate",lv:"Typical at Honours (Levels 3 and 4)",v:["critically evaluate","critically appraise","critically analyse","evaluate","critique","appraise","assess","justify","judge","argue","defend","recommend","reflect"]},
  {n:"Create",lv:"Typical at Honours (Levels 3 and 4)",v:["design","create","develop","formulate","propose","construct","produce","plan","devise","synthesise","generate","communicate","present","write"]}];
+const NOSUGGEST=new Set(["demonstrate"]);
 const HARD_LIST=["understand","know","appreciate","learn","be aware of","be familiar with","become aware of"];
 const SOFT_LIST=["demonstrate an understanding","demonstrate knowledge","show an understanding","gain an understanding","develop an awareness"];
 const HARD_RE=/^\s*(understand|know|appreciate|learn|be (aware|familiar)|become (aware|familiar))\b/i;
@@ -931,7 +932,7 @@ function renderIlo(){
     <p class="hint">${l.length?"Linked markers for "+esc(TY[S.type].name.toLowerCase())+": "+esc(l.join(", ")):"No markers linked yet for "+esc(TY[S.type].name.toLowerCase())+"."} <button type="button" class="linkbtn" data-iloremove="${i}">Remove</button></p></div>`}).join(""):'<p class="empty">No ILOs yet. Add one, or draft one below.</p>';
 }
 function renderDraftSelectors(){
-  $("dVerb").innerHTML=TIERS.map(t=>`<optgroup label="${esc(t.n)} (${esc(t.lv)})">${t.v.map(v=>`<option value="${esc(v)}">${esc(v[0].toUpperCase()+v.slice(1))}</option>`).join("")}</optgroup>`).join("");
+  $("dVerb").innerHTML=TIERS.map(t=>`<optgroup label="${esc(t.n)} (${esc(t.lv)})">${t.v.filter(v=>!NOSUGGEST.has(v)).map(v=>`<option value="${esc(v)}">${esc(v[0].toUpperCase()+v.slice(1))}</option>`).join("")}</optgroup>`).join("");
   $("dVerb").value="apply";
   $("dSub").innerHTML='<option value="">None</option>'+AREAS.map(a=>`<optgroup label="${esc(a.name)}">${a.subs.map(s=>`<option value="${s.id}">${esc(s.name)}</option>`).join("")}</optgroup>`).join("");
 }
@@ -957,7 +958,7 @@ function iloWire(){
   $("markers").addEventListener("change",ev=>{const t=ev.target;if(t.dataset.ilo==null)return;const sid=t.dataset.ilo;if(t.value==="")delete S.ilolink[sid];else S.ilolink[sid]=t.value;iloSave();render();const el=$("il-"+sid);el&&el.focus()});
   $("softList").textContent=SOFT_LIST.map(v=>"“"+v+"”").join(", ");
   $("hardList").textContent=HARD_LIST.map(v=>"“"+v+"”").join(", ");
-  $("tierList").innerHTML=TIERS.map(t=>`<li><strong>${esc(t.n)}</strong> (${esc(t.lv)}): ${esc(t.v.join(", "))}</li>`).join("");
+  $("tierList").innerHTML=TIERS.map(t=>`<li><strong>${esc(t.n)}</strong> (${esc(t.lv)}): ${esc(t.v.filter(v=>!NOSUGGEST.has(v)).join(", "))}${t.v.some(v=>NOSUGGEST.has(v))?". “Demonstrate” is recognised here (for example, “demonstrate competence in running a structured interview”) but isn't offered when drafting, because it often leads to “demonstrate an understanding”. Name what students do instead.":""}</li>`).join("");
 }
 function flashIlo(){const n=$("iloNote");n.textContent="Added as ILO "+ILO.list.length;}
 
